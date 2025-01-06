@@ -6,8 +6,8 @@ interface AnnouncementModel extends Model<IAnnouncement> {
   // TODOS: CRUD ANNOUNCEMENTS
   createAnnouncement(title: string, body: string, image?: string): Promise<IAnnouncement>
   editAnnouncement(title: string, body: string, id: string, image?: string): Promise<IAnnouncement>
-  deleteAnnouncement(title: string, body: string, id: string, image?: string): Promise<IAnnouncement>
-  viewAnnouncements(): Promise<IAnnouncement>
+  deleteAnnouncement(id: string): Promise<IAnnouncement>
+  viewAnnouncements(): Promise<IAnnouncement[]>
   viewAnnouncementById(id: string): Promise<IAnnouncement>
 }
 
@@ -43,28 +43,45 @@ announcementSchema.static(
 announcementSchema.static(
   "editAnnouncement",
   async function editAnnouncement(title: string, body: string, id: string, image?: string) {
-    //TODO
+    const announcement = await this.findById(id)
+
+    if (!announcement) {
+      throw Error("This announcement does not exist")
+    }
+
+    announcement.body = body
+    announcement.title = title
+    if (image) {
+      announcement.image = image
+    }
+
+    await announcement.save()
+
+    return announcement
   }
 )
 
 announcementSchema.static(
   "deleteAnnouncement",
-  async function deleteAnnouncement(title: string, body: string, id: string, image?: string) {
-    //TODO
+  async function deleteAnnouncement(id: string) {
+    const announcement = await this.findByIdAndDelete(id)
+    return announcement
   }
 )
 
 announcementSchema.static(
   "viewAnnouncements",
   async function viewAnnouncements() {
-    //TODO
+    const announcements = await this.find()
+    return announcements
   }
 )
 
 announcementSchema.static(
   "viewAnnouncementById",
   async function viewAnnouncementById(id: string) {
-    //TODO
+    const announcement = await this.findById(id)
+    return announcement
   }
 )
 
