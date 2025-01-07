@@ -1,17 +1,19 @@
 'use client'
 
-import useCheckAuth from "@/hooks/useCheckAuth"
+import { useAuth } from "@/hooks/useAuth"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function DashboardPage() {
-  const { authenticated } = useCheckAuth()
+  const { user, loading } = useAuth()
   const router = useRouter()
   useEffect(() => {
-    if (!authenticated) {
-      router.push("/secretadmin")
+    if (!loading) {
+      if (!user) {
+        router.push("/secretadmin")
+      }
     }
-  }, [authenticated])
+  }, [user])
   return (
     <div>Hello</div>
   )

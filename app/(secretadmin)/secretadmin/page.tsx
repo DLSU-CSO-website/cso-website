@@ -1,5 +1,6 @@
 'use client'
 
+import { useAuth } from "@/hooks/useAuth"
 import useLogin from "@/hooks/useLogin"
 import { Button, Card, Input, Loader, Notification } from "@mantine/core"
 import { notifications } from "@mantine/notifications"
@@ -15,6 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>("")
   const router = useRouter()
   const { success, error, loading, login } = useLogin()
+  const { user, loading: userLoading } = useAuth()
 
   useEffect(() => {
     if (success) {
@@ -25,10 +27,21 @@ export default function LoginPage() {
         title: "Error",
         message: error,
         autoClose: 2000,
-        color: "red"
+        color: "red",
+        position: "bottom-center"
       })
     }
+
+    console.log(success)
   }, [success, error])
+
+  useEffect(() => {
+    if (!userLoading) {
+      if (user) {
+        router.push("secretadmin/dashboard")
+      }
+    }
+  }, [user, userLoading])
 
   const loginUser = () => {
     login(username, password)
