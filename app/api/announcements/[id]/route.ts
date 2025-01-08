@@ -7,7 +7,7 @@ export const GET = async (_request: Request, { params }: { params: Promise<{ id:
     connectDatabase()
     const { id } = await params
     const announcement = await Announcement.viewAnnouncementById(id)
-    return NextResponse.json({ announcement, message: "Succesfully fetched" }, { status: 200 })
+    return NextResponse.json({ data: announcement, message: "Succesfully fetched" }, { status: 200 })
   } catch (e) {
     const err = e as Error
     return NextResponse.json({ message: err.message }, { status: 500 })

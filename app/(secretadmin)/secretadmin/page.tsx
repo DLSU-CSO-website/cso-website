@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/hooks/useAuth"
 import useLogin from "@/hooks/useLogin"
-import { Button, Card, Input, Loader, Notification } from "@mantine/core"
+import { Button, Card, Input, Loader } from "@mantine/core"
 import { notifications } from "@mantine/notifications"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -32,11 +32,11 @@ export default function LoginPage() {
       })
     }
 
-    console.log(success)
   }, [success, error])
 
   useEffect(() => {
     if (!userLoading) {
+      console.log("user: ", user)
       if (user) {
         router.push("secretadmin/dashboard")
       }

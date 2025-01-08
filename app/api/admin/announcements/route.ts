@@ -24,11 +24,11 @@ export const POST = async (request: Request) => {
         return NextResponse.json({ message: "Could not upload the photo!" }, { status: 500 })
       }
       const newAnnouncement = await Announcement.createAnnouncement(String(data.get("title")), String(data.get("body")), result.secure_url)
-      return NextResponse.json({ announcement: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
+      return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
     }
 
     const newAnnouncement = await Announcement.create(String(data.get("title")), String(data.get("body")))
-    return NextResponse.json({ announcement: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
+    return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
   } catch (e) {
     const err = e as Error
     return NextResponse.json({
@@ -55,12 +55,12 @@ export const PUT = async (request: Request) => {
         return NextResponse.json({ message: "Could not upload the photo!" }, { status: 500 })
       }
       const newAnnouncement = await Announcement.editAnnouncement(String(data.get("title")), String(data.get("body")), String(data.get("id")), result.secure_url)
-      return NextResponse.json({ announcement: newAnnouncement, message: String(data.get("title")) + " Announcement successfully edited!" }, { status: 200 })
+      return NextResponse.json({ data: newAnnouncement, message: String(data.get("title")) + " Announcement successfully edited!" }, { status: 200 })
     }
 
     const newAnnouncement = await Announcement.editAnnouncement(String(data.get("title")), String(data.get("body")), String(data.get("id")))
     console.log("Editted successfully!")
-    return NextResponse.json({ announcement: newAnnouncement, message: String(data.get("title")) + " Announcement successfully edited!" }, { status: 200 })
+    return NextResponse.json({ data: newAnnouncement, message: String(data.get("title")) + " Announcement successfully edited!" }, { status: 200 })
   } catch (e) {
     const err = e as Error
     return NextResponse.json({
