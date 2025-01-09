@@ -3,7 +3,6 @@ import { IAnnouncement } from "@/types/announcement.types";
 import { model, Model, Schema } from "mongoose";
 
 interface AnnouncementModel extends Model<IAnnouncement> {
-  // TODOS: CRUD ANNOUNCEMENTS
   createAnnouncement(title: string, body: string, image?: string): Promise<IAnnouncement>
   editAnnouncement(title: string, body: string, id: string, image?: string): Promise<IAnnouncement>
   deleteAnnouncement(id: string): Promise<IAnnouncement>

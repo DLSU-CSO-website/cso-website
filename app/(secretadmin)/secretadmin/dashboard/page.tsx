@@ -23,7 +23,6 @@ export default function DashboardPage() {
   const { user, loading } = useAuth()
   const router = useRouter()
   useEffect(() => {
-    console.log(user)
     if (!loading) {
       if (!user) {
         router.push("/secretadmin")

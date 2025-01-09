@@ -25,7 +25,7 @@ export default function AnnouncementDashboard() {
   }, [user, userLoading])
 
   useEffect(() => {
-    if (error) {
+    if (error !== "") {
       notifications.show({
         title: "Something went wrong :(",
         message: data.message
@@ -36,13 +36,20 @@ export default function AnnouncementDashboard() {
   return (
     <div className="p-8 w-full h-screen bg-gradient-to-br from-white to-slate-200 flex flex-col md:flex-row justify-center items-center gap-10">
       {
-        loading ? <Loader /> : data?.map((announcement: IAnnouncement, key: number) => (
-          <AnnouncementDashCard key={key} announcement={announcement} />
-        ))
+        loading ? <Loader /> : (
+          <>
+            {
+
+              data?.map((announcement: IAnnouncement, key: number) => (
+                <AnnouncementDashCard key={key} announcement={announcement} />
+              ))
+            }
+            <Card shadow="md" radius="md" padding="lg" withBorder className="w-72 h-96 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer">
+              <IconPlus stroke={2} width={"80"} height={"80"} color="gray" />
+            </Card>
+          </>
+        )
       }
-      <Card shadow="md" radius="md" padding="lg" withBorder className="w-72 h-96 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer">
-        <IconPlus stroke={2} width={"80"} height={"80"} color="gray" />
-      </Card>
     </div>
   )
 }
