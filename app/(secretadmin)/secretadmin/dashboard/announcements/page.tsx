@@ -4,10 +4,11 @@ import AnnouncementDashCard from "@/components/AnnouncementDashCard"
 import { useAuth } from "@/hooks/useAuth"
 import useFetchData from "@/hooks/useFetchData"
 import { IAnnouncement } from "@/types/announcement.types"
-import { Loader } from "@mantine/core"
+import { Loader, Card } from "@mantine/core"
 import { notifications } from "@mantine/notifications"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { IconPlus } from '@tabler/icons-react';
 
 export default function AnnouncementDashboard() {
   const { data, loading, error } = useFetchData("/api/announcements")
@@ -33,12 +34,15 @@ export default function AnnouncementDashboard() {
   }, [error])
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-white to-slate-200 flex justify-center items-center gap-10">
+    <div className="p-8 w-full h-screen bg-gradient-to-br from-white to-slate-200 flex flex-col md:flex-row justify-center items-center gap-10">
       {
         loading ? <Loader /> : data?.map((announcement: IAnnouncement, key: number) => (
           <AnnouncementDashCard key={key} announcement={announcement} />
         ))
       }
+      <Card shadow="md" radius="md" padding="lg" withBorder className="w-72 h-96 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer">
+        <IconPlus stroke={2} width={"80"} height={"80"} color="gray" />
+      </Card>
     </div>
   )
 }
