@@ -9,6 +9,7 @@ import { notifications } from "@mantine/notifications"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { IconPlus } from '@tabler/icons-react';
+import Link from "next/link"
 
 export default function AnnouncementDashboard() {
   const { data, loading, error } = useFetchData("/api/announcements")
@@ -16,7 +17,6 @@ export default function AnnouncementDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(user)
     if (!userLoading) {
       if (!user) {
         router.push("/secretadmin")
@@ -44,9 +44,11 @@ export default function AnnouncementDashboard() {
                 <AnnouncementDashCard key={key} announcement={announcement} />
               ))
             }
-            <Card shadow="md" radius="md" padding="lg" withBorder className="w-72 h-96 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer">
-              <IconPlus stroke={2} width={"80"} height={"80"} color="gray" />
-            </Card>
+            <Link href="/secretadmin/dashboard/announcements/create">
+              <Card shadow="md" radius="md" padding="lg" withBorder className="w-72 h-96 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer">
+                <IconPlus stroke={2} width={"80"} height={"80"} color="gray" />
+              </Card>
+            </Link>
           </>
         )
       }

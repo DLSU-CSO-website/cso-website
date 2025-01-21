@@ -1,4 +1,3 @@
-import { IAdmin } from "@/types/admin.types";
 import { IAnnouncement } from "@/types/announcement.types";
 import { model, Model, Schema } from "mongoose";
 

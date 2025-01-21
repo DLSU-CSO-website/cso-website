@@ -8,8 +8,8 @@ import { UploadApiResponse } from "cloudinary";
 
 export const POST = async (request: Request) => {
   try {
-    const data = await request.formData()
     connectDatabase()
+    const data = await request.formData()
     checkAdmin(request)
 
     if (data.get("image")) {
@@ -25,7 +25,7 @@ export const POST = async (request: Request) => {
       const newAnnouncement = await Announcement.createAnnouncement(String(data.get("title")), String(data.get("body")), result.secure_url)
       return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
     }
-
+    console.log("Hello")
     const newAnnouncement = await Announcement.create(String(data.get("title")), String(data.get("body")))
     return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
   } catch (e) {
