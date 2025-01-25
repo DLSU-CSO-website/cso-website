@@ -1,114 +1,139 @@
+import { Schema, model, Model, models } from "mongoose";
 import { IOrganization } from "@/types/organization.types";
-import { model, Model, Schema } from "mongoose";
+import { ICluster } from "@/types/cluster.types";
 
-interface OrganizationModel extends Model<IOrganization> {
-  createOrganization(title: string, name: string, bio: string, course: string, cluster: string, image?: string): Promise<IOrganization>
-  editOrganization(title: string, name: string,  bio: string, course: string, cluster: string, id: string, image?: string): Promise<IOrganization>
-  deleteOrganization(id: string): Promise<IOrganization>
-  viewOrganizations(): Promise<IOrganization[]>
-  viewOrganizationById(id: string): Promise<IOrganization>
-  viewOrganizationByCluster(cluster: string): Promise<IOrganization>
+interface ClusterModel extends Model<ICluster> {
+  createCluster(abbreviatedName: string, fullName: string): Promise<ICluster>;
+  editCluster(abbreviatedName: string, newAbbreviatedName: string, newFullName: string): Promise<ICluster | null>;
+  addOrganization(abbreviatedName: string, organization: IOrganization): Promise<ICluster | null>;
+  editOrganization(abbreviatedName: string, organizationId: string, organization: Partial<IOrganization>): Promise<ICluster | null>;
+  deleteOrganization(abbreviatedName: string, organizationId: string): Promise<ICluster | null>;
+  viewOrganizations(): Promise<IOrganization[]>;
+  viewOrganizationsByCluster(abbreviatedName: string): Promise<IOrganization[]>;
+  viewClusters(): Promise<ICluster[]>;
 }
 
-const organizationSchema = new Schema<IOrganization, OrganizationModel>({
-  title: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  bio: {
-    type: String,
-    required: true,
-  },
-  course: {
-    type: String,
-    required: true,
-  },
-  cluster: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-  }
-}, { timestamps: true })
+const organizationSchema = new Schema<IOrganization>({
+  title: { type: String, required: true },
+  name: { type: String, required: true },
+  body: { type: String, required: true },
+  course: { type: String, required: true },
+  cluster: { type: String, required: true },
+  image: { type: String },
+});
 
-organizationSchema.static(
-  "createOrganization", // IMAGE SHOULD BE UPLOADED AT THIS POINT!
-  async function createOrganization(title: string, name: string, bio: string, course: string, cluster: string, image?: string) {
-    if (!image) {
-      image = ""
+const clusterSchema = new Schema<ICluster, ClusterModel>({
+  abbreviatedName: { type: String, required: true },
+  fullName: { type: String, required: true },
+  organizations: [organizationSchema],
+}, { timestamps: true });
+
+clusterSchema.static(
+  "createCluster", 
+  async function createCluster(abbreviatedName: string, fullName: string) {
+    const existingCluster = await this.findOne({ 
+      $or: [{ abbreviatedName }, { fullName }] 
+    });
+    if (existingCluster) {
+      throw new Error('Cluster with the same abbreviated name or full name already exists');
     }
-    const organization = await this.create({
-      title,
-      name,
-      bio,
-      course,
-      cluster,
-      image
-    })
-    return organization
+    const cluster = await this.create({ abbreviatedName, fullName, organizations: [] });
+    return cluster;
   }
-)
+);
 
-organizationSchema.static(
-  "editOrganization",
-  async function editOrganization(title: string, name: string, bio: string, course: string, cluster: string, id: string, image?: string) {
-    const organization = await this.findById(id)
-
-    if (!organization) {
-      throw Error("This announcement does not exist")
+clusterSchema.static(
+  "editCluster", 
+  async function editCluster(abbreviatedName: string, newAbbreviatedName: string, newFullName: string) {
+    const cluster = await this.findOneAndUpdate({ abbreviatedName }, { abbreviatedName: newAbbreviatedName, fullName: newFullName }, { new: true });
+    if (!cluster) {
+      throw new Error(`Cluster with abbreviated name ${abbreviatedName} not found`);
     }
+    return cluster;
+  }
+);
 
-    organization.name = name
-    organization.title = title
-    organization.course = course
-    organization.cluster = cluster
-    if (image) {
-      organization.image = image
+clusterSchema.static(
+  "addOrganization", 
+  async function addOrganization(abbreviatedName: string, organization: IOrganization) {
+    const cluster = await this.findOne({ abbreviatedName });
+    if (!cluster) {
+      throw new Error(`Cluster with abbreviated name ${abbreviatedName} not found`);
     }
-
-    await organization.save()
-
-    return organization
+    cluster.organizations.push(organization);
+    await cluster.save();
+    return cluster;
   }
-)
+);
 
-organizationSchema.static(
-  "deleteOrganization",
-  async function deleteOrganization(id: string) {
-    const organization = await this.findByIdAndDelete(id)
-    return organization
+clusterSchema.static(
+  "editOrganization", 
+  async function editOrganization(abbreviatedName: string, organizationId: string, organization: Partial<IOrganization>) {
+    const cluster = await this.findOne({ abbreviatedName });
+    if (!cluster) {
+      throw new Error(`Cluster with abbreviated name ${abbreviatedName} not found`);
+    }
+    const orgIndex = cluster.organizations.findIndex(org => org._id && org._id.toString() === organizationId);
+    if (orgIndex === -1) {
+      throw new Error(`Organization with the ID: ${organizationId} not found`);
+    }
+    cluster.organizations[orgIndex] = { ...cluster.organizations[orgIndex], ...organization };
+    await cluster.save();
+    return cluster;
   }
-)
+);
 
-organizationSchema.static(
-  "viewOrganization",
-  async function viewOrganization() {
-    const organization = await this.find()
-    return organization
+clusterSchema.static(
+  "deleteOrganization", 
+  async function deleteOrganization(abbreviatedName: string, organizationId: string) {
+    const cluster = await this.findOne({ abbreviatedName });
+    if (!cluster) {
+      throw new Error(`Cluster with abbreviated name ${abbreviatedName} not found`);
+    }
+    const orgIndex = cluster.organizations.findIndex(org => org._id && org._id.toString() === organizationId);
+    if (orgIndex === -1) {
+      throw new Error(`Organization with the ID: ${organizationId} not found`);
+    }
+    cluster.organizations = cluster.organizations.filter(org => org._id && org._id.toString() !== organizationId);
+    await cluster.save();
+    return cluster;
   }
-)
+);
 
-organizationSchema.static(
-  "viewOrganizationById",
-  async function viewOrganizationById(id: string) {
-    const organization = await this.findById(id)
-    return organization
+clusterSchema.static(
+  "viewOrganizations", 
+  async function viewOrganizations() {
+    const clusters = await this.find();
+    if (!clusters) {
+      throw new Error('No clusters found');
+    }
+    const organizations = clusters.reduce<IOrganization[]>((acc, cluster) => acc.concat(cluster.organizations), []);
+    return organizations;
   }
-)
+);
 
-organizationSchema.static(
-  "viewOrganizationByCluster",
-  async function viewOrganizationByCluster(cluster: string) {
-    const organization = await this.find({ cluster: cluster })
-    return organization
+clusterSchema.static(
+  "viewOrganizationsByCluster", 
+  async function viewOrganizationsByCluster(abbreviatedName: string) {
+    const cluster = await this.findOne({ abbreviatedName });
+    if (!cluster) {
+      throw new Error(`Cluster with abbreviated name ${abbreviatedName} not found`);
+    }
+    return cluster.organizations;
   }
-)
+);
 
-const Organization = model<IOrganization, OrganizationModel>("Organization", organizationSchema)
+clusterSchema.static(
+  "viewClusters", 
+  async function viewClusters() {
+    const clusters = await this.find();
+    // if (!clusters || clusters.length === 0) {
+    //   throw new Error('No clusters found');
+    // }
+    return clusters;
+  }
+);
 
-export default Organization
+const Cluster = (models.Cluster as ClusterModel) || model<ICluster, ClusterModel>("Cluster", clusterSchema)
+
+export default Cluster;
