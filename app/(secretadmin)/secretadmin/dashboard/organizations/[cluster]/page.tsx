@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 export default function Page() {
   const params = useParams();
   const cluster = params.cluster;
-  const { data, loading, error } = useFetchData("/api/organizations/"+cluster)
+  const { data, loading, error } = useFetchData("/api/admin/organizations/"+cluster)
   const { user, loading: userLoading } = useAuth()
   const router = useRouter()
 
