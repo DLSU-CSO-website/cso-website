@@ -1,5 +1,5 @@
 import { IAnnouncement } from "@/types/announcement.types";
-import { model, Model, Schema } from "mongoose";
+import { model, Model, models, Schema } from "mongoose";
 
 interface AnnouncementModel extends Model<IAnnouncement> {
   createAnnouncement(title: string, body: string, image?: string): Promise<IAnnouncement>
@@ -83,6 +83,6 @@ announcementSchema.static(
   }
 )
 
-const Announcement = model<IAnnouncement, AnnouncementModel>("Announcement", announcementSchema)
+const Announcement = model<IAnnouncement, AnnouncementModel>("Announcement", announcementSchema);
 
 export default Announcement

@@ -12,6 +12,8 @@ export const POST = async (request: Request) => {
     const data = await request.formData()
     checkAdmin(request)
 
+    console.log(data.get("title"))
+
     if (data.get("image")) {
       const imageFile = data.get("image") as File
       const fileBuffer = await imageFile.arrayBuffer()
@@ -26,7 +28,7 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
     }
     console.log("Hello")
-    const newAnnouncement = await Announcement.create(String(data.get("title")), String(data.get("body")))
+    const newAnnouncement = await Announcement.createAnnouncement(String(data.get("title")), String(data.get("body")))
     return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
   } catch (e) {
     const err = e as Error

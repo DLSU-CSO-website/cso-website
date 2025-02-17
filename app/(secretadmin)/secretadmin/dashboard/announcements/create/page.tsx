@@ -8,7 +8,6 @@ import { RichTextEditor, Link } from '@mantine/tiptap';
 import { IconFilePlus } from "@tabler/icons-react";
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { error } from "console";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -86,7 +85,8 @@ export default function CreateAnnouncementPage() {
     if (image) {
       formDataUpload.append("image", image)
     }
-
+    console.log(formDataUpload.get("title"))
+    console.log(formDataUpload.get("body"))
 
     if (!user) {
       return

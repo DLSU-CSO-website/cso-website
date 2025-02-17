@@ -11,7 +11,6 @@ const useAnnouncementUpload = () => {
       method: "POST",
       body: announcement,
       headers: {
-        "Content-type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`
       }
     })
