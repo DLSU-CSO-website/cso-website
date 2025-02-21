@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 export const DELETE = async (request: Request) => {
   try {
     await connectDatabase();
-    // checkAdmin(request);
+    checkAdmin(request);
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 

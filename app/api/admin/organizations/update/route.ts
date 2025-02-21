@@ -6,7 +6,7 @@ import { checkAdmin } from "@/libs/authentication.libs";
 export const POST = async (request: Request) => {
   try {
     await connectDatabase();
-    // checkAdmin(request);
+    checkAdmin(request);
 
     const data = await request.json().catch(() => null);
     if (!data) {

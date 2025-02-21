@@ -18,7 +18,7 @@ export default function ClusterPage() {
   const [clusters, setClusters] = useState<ICluster[]>([]);
   const [editingClusterId, setEditingClusterId] = useState<string | null>(null);
   const [globalLoading, setGlobalLoading] = useState(false);
-
+  
   const router = useRouter();
   useEffect(() => {
     if (!loading && !user) {
@@ -50,6 +50,7 @@ export default function ClusterPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify(formValues),
       });
@@ -106,6 +107,7 @@ export default function ClusterPage() {
           {clusters.map((cluster: ICluster) => (
             <ClusterDashCard
               key={cluster._id?.toString()}
+              user={user}
               cluster={cluster}
               isEditing={editingClusterId === cluster._id?.toString()}
               setEditingClusterId={setEditingClusterId}

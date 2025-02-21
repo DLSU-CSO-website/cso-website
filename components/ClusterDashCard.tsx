@@ -4,8 +4,10 @@ import { Card, TextInput, Button, Modal, Loader } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
 import Link from "next/link";
+import { ISession } from "@/types/session.types";
 
 interface ClusterDashCardProps {
+  user: ISession | null;
   cluster: ICluster;
   isEditing: boolean;
   setEditingClusterId: (id: string | null) => void;
@@ -14,7 +16,7 @@ interface ClusterDashCardProps {
   setGlobalLoading: (loading: boolean) => void;
 }
 
-export default function ClusterDashCard({ cluster, isEditing, setEditingClusterId, onEditSuccess, onDeleteSuccess, setGlobalLoading }: ClusterDashCardProps) {
+export default function ClusterDashCard({ user, cluster, isEditing, setEditingClusterId, onEditSuccess, onDeleteSuccess, setGlobalLoading }: ClusterDashCardProps) {
   const { abbreviatedName, fullName, _id } = cluster;
   const link = `/secretadmin/dashboard/organizations/${abbreviatedName}`;
   const [formValues, setFormValues] = useState({ abbreviatedName, fullName });
@@ -36,6 +38,7 @@ export default function ClusterDashCard({ cluster, isEditing, setEditingClusterI
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify({ id: _id, ...formValues }),
       });
@@ -77,8 +80,12 @@ export default function ClusterDashCard({ cluster, isEditing, setEditingClusterI
       try {
         const response = await fetch(`/api/admin/organizations/delete?id=${_id}`, {
           method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user?.token}`,
+          }
         });
-
+        
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message);
