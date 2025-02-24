@@ -21,7 +21,7 @@ export default function ClusterPage() {
   
   const router = useRouter();
   useEffect(() => {
-    if (!loading && !user) {
+    if (!userLoading && !user) {
       router.push("/secretadmin");
       console.log(data);
     }

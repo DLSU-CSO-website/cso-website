@@ -2,38 +2,43 @@
 import OrganizationDashCard from '@/components/OrganizationDashCard';
 import { useAuth } from '@/hooks/useAuth';
 import useFetchData from '@/hooks/useFetchData';
+import useOrganizationUpload from '@/hooks/useOrganizationUpload';
 import { IOrganization } from '@/types/organization.types';
-import { Loader, Card, TextInput, Modal, Button, Group, FileInput } from '@mantine/core';
+import { Loader, Card, TextInput, Modal, Button, Group, FileInput, FileButton, Image, Textarea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconPlus } from '@tabler/icons-react';
+import { IconPlus, IconFilePlus } from '@tabler/icons-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Page() {
-  const params = useParams();
-  const cluster = params.cluster;
-  const { data, loading, error } = useFetchData("/api/admin/organizations/" + cluster);
   const { user, loading: userLoading } = useAuth();
+  const params = useParams();
+  const cluster = params.cluster as string;
+  const { data, loading, error } = useFetchData("/api/admin/organizations/" + cluster);
   const router = useRouter();
 
   const [showForm, setShowForm] = useState(false);
   const [formValues, setFormValues] = useState({
-    title: '',
+    abbreviatedName: '',
     name: '',
-    body: '',
-    course: '',
-    cluster: '',
-    image: '',
+    orgDesc: '',
+    programs: '',
+    facebook: '',
+    instagram: '',
+    logo: '',
   });
   const [organizations, setOrganizations] = useState<IOrganization[]>([]);
   const [globalLoading, setGlobalLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageName, setImageName] = useState<string>("");
+
+  const { upload, error: uploadError, loading: uploadLoading, success: uploadSuccess } = useOrganizationUpload();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!userLoading && !user) {
       router.push("/secretadmin");
     }
-  }, [user, loading]);
+  }, [user, userLoading]);
 
   useEffect(() => {
     if (data) {
@@ -50,11 +55,32 @@ export default function Page() {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (imageFile) {
+      const objectUrl = URL.createObjectURL(imageFile);
+      setImageName(objectUrl);
+    } else {
+      setImageName("");
+    }
+  }, [imageFile]);
+
+  useEffect(() => {
+    if (uploadError) {
+      notifications.show({
+        title: "Error",
+        message: uploadError,
+        autoClose: 2000,
+        color: "red",
+        position: "bottom-center"
+      });
+    }
+  }, [uploadError]);
+
   const handleIconClick = () => {
     setShowForm(true);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
@@ -67,79 +93,39 @@ export default function Page() {
     e.preventDefault();
     setGlobalLoading(true);
 
-    let imageUrl = formValues.image;
-
+    const formDataUpload = new FormData();
+    formDataUpload.append("abbreviatedName", formValues.abbreviatedName);
+    formDataUpload.append("name", formValues.name);
+    formDataUpload.append("orgDesc", formValues.orgDesc);
+    formDataUpload.append("programs", formValues.programs);
+    formDataUpload.append("facebook", formValues.facebook);
+    formDataUpload.append("instagram", formValues.instagram);
     if (imageFile) {
-      const formData = new FormData();
-      formData.append('file', imageFile);
-      formData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary upload preset
-
-      const response = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', { // Replace with your Cloudinary cloud name
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        notifications.show({
-          title: 'Error',
-          message: errorData.message,
-          autoClose: 2000,
-          color: 'red',
-          position: 'bottom-center',
-        });
-        setGlobalLoading(false);
-        return;
-      }
-
-      const result = await response.json();
-      imageUrl = result.secure_url;
+      formDataUpload.append("image", imageFile);
     }
 
-    try {
-      const response = await fetch('/api/admin/organizations/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formValues, image: imageUrl }),
-      });
+    if (!user) {
+      setGlobalLoading(false);
+      return;
+    }
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
+    await upload(formDataUpload, cluster, user.token);
 
-      const result = await response.json();
-      notifications.show({
-        title: 'Success',
-        message: 'Organization created successfully',
-        autoClose: 2000,
-        color: 'green',
-        position: 'bottom-center',
-      });
+    if (uploadSuccess) {
       setShowForm(false);
       setFormValues({
-        title: '',
+        abbreviatedName: '',
         name: '',
-        body: '',
-        course: '',
-        cluster: '',
-        image: '',
+        orgDesc: '',
+        programs: '',
+        facebook: '',
+        instagram: '',
+        logo: '',
       });
-      setOrganizations([...organizations, result.data]);
-    } catch (err) {
-      const error = err as Error;
-      notifications.show({
-        title: 'Error',
-        message: error.message,
-        autoClose: 2000,
-        color: 'red',
-        position: 'bottom-center',
-      });
-    } finally {
-      setGlobalLoading(false);
+      setOrganizations([...organizations, formValues]);
     }
+
+    setGlobalLoading(false);
   };
 
   return (
@@ -168,9 +154,9 @@ export default function Page() {
       >
         <form onSubmit={handleSubmit}>
           <TextInput
-            label="Title"
-            name="title"
-            value={formValues.title}
+            label="Abbreviated Name"
+            name="abbreviatedName"
+            value={formValues.abbreviatedName}
             onChange={handleInputChange}
             required
           />
@@ -181,41 +167,52 @@ export default function Page() {
             onChange={handleInputChange}
             required
           />
-          <TextInput
-            label="Body"
-            name="body"
-            value={formValues.body}
+          <Textarea
+            label="Description"
+            name="orgDesc"
+            value={formValues.orgDesc}
             onChange={handleInputChange}
             required
+            minRows={4}
           />
           <TextInput
-            label="Course"
-            name="course"
-            value={formValues.course}
+            label="Programs"
+            name="programs"
+            value={formValues.programs}
             onChange={handleInputChange}
-            required
           />
           <TextInput
-            label="Cluster"
-            name="cluster"
-            value={formValues.cluster}
+            label="Facebook"
+            name="facebook"
+            value={formValues.facebook}
             onChange={handleInputChange}
-            required
-          />
-          <FileInput
-            label="Image"
-            placeholder="Upload image or provide a link"
-            value={imageFile}
-            onChange={handleFileChange}
-            accept="image/*"
           />
           <TextInput
-            label="Image URL (optional)"
-            name="image"
-            value={formValues.image}
+            label="Instagram"
+            name="instagram"
+            value={formValues.instagram}
             onChange={handleInputChange}
           />
-          <Group position="right" mt="md">
+          <div className="w-full h-1/4 mt-10">
+            {
+              imageName ?
+                <>
+                  <Image className="object-center w-full h-full" fit="cover" src={imageName} />
+                  <div className="w-full mt-2 flex justify-center items-center">
+                    <FileButton accept="image/png,image/jpeg,image/jpg" onChange={setImageFile}>
+                      {
+                        (props) => (
+                          <Button {...props}>Change Image</Button>
+                        )
+                      }
+                    </FileButton>
+                  </div>
+                </>
+                :
+                <FileInput accept="image/png,image/jpeg,image/jpg" className="w-full h-full flex justify-center items-center" placeholder={<IconFilePlus />} value={imageFile} onChange={setImageFile} />
+            }
+          </div>
+          <Group align="right" mt="md">
             <Button type="submit">Submit</Button>
           </Group>
         </form>

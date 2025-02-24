@@ -14,12 +14,13 @@ interface ClusterModel extends Model<ICluster> {
 }
 
 const organizationSchema = new Schema<IOrganization>({
-  title: { type: String, required: true },
+  abbreviatedName: { type: String, required: true },
   name: { type: String, required: true },
-  body: { type: String, required: true },
-  course: { type: String, required: true },
-  cluster: { type: String, required: true },
-  image: { type: String },
+  orgDesc: { type: String, required: true },
+  programs: { type: String },
+  facebook: { type: String },
+  instagram: { type: String },
+  logo: { type: String, required: true },
 });
 
 const clusterSchema = new Schema<ICluster, ClusterModel>({
@@ -127,13 +128,10 @@ clusterSchema.static(
   "viewClusters", 
   async function viewClusters() {
     const clusters = await this.find();
-    // if (!clusters || clusters.length === 0) {
-    //   throw new Error('No clusters found');
-    // }
     return clusters;
   }
 );
 
-const Cluster = (models.Cluster as ClusterModel) || model<ICluster, ClusterModel>("Cluster", clusterSchema)
+const Cluster = (models.Cluster as ClusterModel) || model<ICluster, ClusterModel>("Cluster", clusterSchema);
 
 export default Cluster;
