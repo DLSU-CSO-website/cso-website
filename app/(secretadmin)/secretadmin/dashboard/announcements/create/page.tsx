@@ -97,7 +97,7 @@ export default function CreateAnnouncementPage() {
 
   return (
     <>
-      <div className="w-full h-screen flex justify-center items-center">
+      <div className="w-full min-h-screen flex justify-center items-center">
         <div className="w-1/2 h-full flex flex-col gap-5 justify-center items-center">
           <div className="w-full flex justify-end items-center">
             <Button onClick={uploadAnnouncement}>Post Announcement!</Button>
@@ -106,8 +106,8 @@ export default function CreateAnnouncementPage() {
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title goes here..." className="w-full h-full" />
           </Input.Wrapper>
           <Input.Wrapper className="w-full h-1/3" label="Body" description="Please write the announcement body here.">
-            <RichTextEditor editor={editor} className="h-full w-full">
-              <RichTextEditor.Toolbar sticky stickyOffset={60} className="overflow-scroll">
+            <RichTextEditor editor={editor} className="h-full w-full overflow-scroll">
+              <RichTextEditor.Toolbar sticky>
                 <RichTextEditor.ControlsGroup>
                   <RichTextEditor.Bold />
                   <RichTextEditor.Italic />
@@ -165,6 +165,7 @@ export default function CreateAnnouncementPage() {
             }
           </div>
         </div>
+
       </div>
     </>
   )
