@@ -2,7 +2,6 @@ import Announcement from "@/models/announcement.models";
 import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/mongodb.libs";
 import { checkAdmin } from "@/libs/authentication.libs";
-// import cloudinary from "@/libs/cloudinary.libs";
 import { uploadImageCloudinary } from "@/libs/imageUploader.libs";
 import { UploadApiResponse } from "cloudinary";
 

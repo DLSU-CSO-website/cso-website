@@ -36,7 +36,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!userLoading) {
-      console.log("user: ", user)
+      // console.log("user: ", user)
       if (user) {
         router.push("secretadmin/dashboard")
       }
