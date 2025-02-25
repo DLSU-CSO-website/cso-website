@@ -5,15 +5,3 @@
 .gradient-background {
     @apply bg-gradient-to-br from-primary to-secondary;
 }
-
-.gradient-background-light {
-    @apply bg-gradient-to-br from-white to-primary-30 via-white;
-}
-
-.gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary via-secondary;
-}
-
-.gradient-text-light {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary-30 to-secondary;
-}
