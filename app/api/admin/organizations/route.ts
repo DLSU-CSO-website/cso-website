@@ -2,7 +2,7 @@ import { connectDatabase } from "@/libs/mongodb.libs"
 import Cluster from "@/models/organizations.models"
 import { NextResponse } from "next/server"
 
-export const GET = async (_request: Request) => {
+export const GET = async () => {
   try {
     connectDatabase()
     const clusters = await Cluster.viewClusters()
