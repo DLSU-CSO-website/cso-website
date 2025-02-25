@@ -14,8 +14,8 @@
 //   }
 // }
 
-// import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-// export const GET = async (request: Request) => {
-//     return NextResponse.json({ message: "This is the admin create route" }, { status: 200 })
-// }
+export const GET = async () => {
+    return NextResponse.json({ message: "This is the admin create route" }, { status: 200 })
+}
