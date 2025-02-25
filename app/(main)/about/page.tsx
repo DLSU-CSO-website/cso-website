@@ -1,4 +1,3 @@
-import Image from "next/image";
 import "./about-styles.css";
 
 const About = () => {
