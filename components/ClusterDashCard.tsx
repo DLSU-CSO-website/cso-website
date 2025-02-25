@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { ICluster } from "@/types/cluster.types";
-import { Card, TextInput, Button, Modal, Loader } from "@mantine/core";
+import { Card, TextInput, Button, Modal} from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
-import Link from "next/link";
 import { ISession } from "@/types/session.types";
 
 interface ClusterDashCardProps {

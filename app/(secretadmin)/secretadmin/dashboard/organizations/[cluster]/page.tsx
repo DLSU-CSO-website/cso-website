@@ -34,7 +34,7 @@ export default function Page() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageName, setImageName] = useState<string>("");
 
-  const { upload, error: uploadError, loading: uploadLoading, success: uploadSuccess } = useOrganizationUpload();
+  const { upload, error: uploadError} = useOrganizationUpload();
 
   useEffect(() => {
     if (!userLoading && !user) {
@@ -103,10 +103,6 @@ export default function Page() {
     if (editFormValues) {
       setEditFormValues({ ...editFormValues, [name]: value });
     }
-  };
-
-  const handleFileChange = (file: File | null) => {
-    setImageFile(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
