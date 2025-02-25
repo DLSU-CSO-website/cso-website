@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.section-layout {
+    @apply w-full min-h-screen flex items-center justify-center;
+}
