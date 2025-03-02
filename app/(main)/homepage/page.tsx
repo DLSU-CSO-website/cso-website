@@ -132,65 +132,6 @@ const Homepage = () => {
           )}
         </div>
       </section>
-      <section
-        id="clusters-section"
-        className="section-layout p-10 flex justify-center gradient-background-light"
-      >
-        <div className="w-full flex items-center justify-center shadow-inner drop-shadow-lg"></div>
-      </section>
-      {orgState.org && (
-        <section
-          id="org-section"
-          className="section-layout p-10 flex justify-center gradient-background-light relative"
-        >
-          <div
-            className={`w-full min-h-screen p-10 bg-white shadow-inner flex items-center justify-center relative transition-opacity duration-300 ${
-              orgState.visible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <div className="absolute inset-0 flex justify-center items-center opacity-30">
-              <Image
-                src={orgState.org.logo}
-                width={800}
-                height={800}
-                alt="Org Logo"
-                className="object-contain"
-              />
-            </div>
-            <div className="w-[50%] p-10 flex flex-col items-center justify-center bg-white/50 relative z-10">
-              <div className="w-full flex flex-col items-center gap-8">
-                <h1 className="text-5xl uppercase font-bold gradient-text text-center">
-                  {orgState.org.name}
-                </h1>
-              </div>
-              <div className="w-full h-full p-24">
-                <p className="text-2xl text-secondary-30 font-bold text-justify">
-                  {orgState.org.orgDesc}
-                </p>
-              </div>
-              <div className="w-full flex items-center justify-end gap-4 text-4xl text-primary">
-                {(orgState.org.facebook || orgState.org.instagram) && (
-                  <>
-                    <Link href={`${orgState.org.facebook}`}>
-                      <FaFacebook />
-                    </Link>
-                    <Link href={`${orgState.org.instagram}`}>
-                      <FaInstagram />
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-          <div
-            onClick={() => scrollToSection("clusters-section")}
-            className="absolute z-10 bottom-0 w-full p-10 bg-secondary/50 flex flex-col gap-2 items-center justify-center cursor-pointer font-bold"
-          >
-            <LuChevronsUp />
-            <p>View Organizations</p>
-          </div>
-        </section>
-      )}
     </main>
   );
 };
