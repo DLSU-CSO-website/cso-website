@@ -10,6 +10,11 @@ import { useState } from "react";
 import { IOrganization } from "@/types/organization.types";
 import { ICluster } from "@/types/cluster.types";
 import { LuChevronsUp } from "react-icons/lu";
+import { LuChevronsDown } from "react-icons/lu";
+import { FaFacebook } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa6";
+//import { MdOutlineMail } from "react-icons/md";
+import Link from "next/link";
 
 const Homepage = () => {
   // data fetching
@@ -72,24 +77,43 @@ const Homepage = () => {
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center">
-      <section className="section-layout gradient-background">
+      <section className="section-layout gradient-background relative">
         <Image
           src="/cso-logo-green.png"
           width={500}
           height={500}
           alt="CSO Logo"
         />
+        <div
+          onClick={() => scrollToSection("title-section")}
+          className="absolute z-10 bottom-0 w-full p-10 bg-gradient-to-b from-white/30 to-white flex flex-col gap-2 items-center justify-center cursor-pointer font-bold"
+        >
+          <p>Explore</p>
+          <LuChevronsDown />
+        </div>
       </section>
-      <section className="section-layout gradient-background-light">
-        <div className="w-1/2 flex flex-col justify-center gap-6">
-          <p className="w-full text-xl uppercase font-bold gradient-text">
+      <section
+        id="title-section"
+        className="section-layout gradient-background-light relative"
+      >
+        {/* <div className="absolute inset-0 flex justify-center items-center">
+          <Image
+            src="/cso-logo-white.png"
+            width={900}
+            height={900}
+            alt="CSO Logo"
+            className="object-contain"
+          />
+        </div> */}
+        <div className="z-10 w-1/2 flex flex-col justify-center gap-6">
+          <p className="scroll-in-animation w-full text-xl uppercase font-bold gradient-text">
             Council of Student Organizations
           </p>
-          <h1 className="w-full text-7xl uppercase font-black gradient-text">
+          <h1 className="scroll-in-animation w-full text-7xl uppercase font-black gradient-text">
             Always for the passion for service
           </h1>
-          <hr className="w-full border-4 border-primary" />
-          <p className="w-full text-lg uppercase from-bg gradient-text">
+          <hr className="scroll-in-animation w-full border-4 border-primary" />
+          <p className="scroll-in-animation w-full text-lg uppercase from-bg gradient-text">
             48 organizations. 9 executive teams. 1 cso
           </p>
         </div>
@@ -112,58 +136,7 @@ const Homepage = () => {
         id="clusters-section"
         className="section-layout p-10 flex justify-center gradient-background-light"
       >
-        <div className="w-full flex items-center justify-center shadow-inner drop-shadow-lg">
-          <div className="w-[25%] h-screen p-10 gradient-background flex flex-col justify-center gap-10">
-            <div className="w-full flex flex-col gap-2">
-              <div>
-                <h1 className="text-white font-bold">Our Organizations</h1>
-                <h2 className="text-secondary font-bold">
-                  {totalOrganizations} Organizations. 1 CSO
-                </h2>
-              </div>
-              <hr />
-            </div>
-            <div className="w-full flex flex-col gap-6">
-              {clusters?.map((cluster: ICluster, key: number) => (
-                <p
-                  className="w-full p-2 text-white font-black text-lg rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
-                  key={key}
-                  onClick={() => handleClusterChange(cluster)}
-                >
-                  {cluster.fullName}
-                </p>
-              ))}
-            </div>
-          </div>
-          <div className="w-[75%] h-screen bg-[#F5F5E9] flex items-center justify-center">
-            <div
-              className={`w-4/5 flex flex-wrap items-center justify-center gap-10 transition-opacity duration-300 ${
-                clusterState.visible ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              {clusterState.cluster &&
-                clusterState.cluster.organizations.map(
-                  (org: IOrganization, key: number) => (
-                    <div
-                      key={key}
-                      onClick={() => {
-                        handleOrgChange(org);
-                        // Scroll after a small delay to ensure content is updated
-                        setTimeout(() => scrollToSection("org-section"), 50);
-                      }}
-                    >
-                      <Image
-                        src={org.logo}
-                        width={200}
-                        height={200}
-                        alt="Org Logo"
-                      />
-                    </div>
-                  ),
-                )}
-            </div>
-          </div>
-        </div>
+        <div className="w-full flex items-center justify-center shadow-inner drop-shadow-lg"></div>
       </section>
       {orgState.org && (
         <section
@@ -175,7 +148,6 @@ const Homepage = () => {
               orgState.visible ? "opacity-100" : "opacity-0"
             }`}
           >
-            {/* Rest of your org section code, using orgState.org instead of selectedOrg */}
             <div className="absolute inset-0 flex justify-center items-center opacity-30">
               <Image
                 src={orgState.org.logo}
@@ -196,11 +168,23 @@ const Homepage = () => {
                   {orgState.org.orgDesc}
                 </p>
               </div>
+              <div className="w-full flex items-center justify-end gap-4 text-4xl text-primary">
+                {(orgState.org.facebook || orgState.org.instagram) && (
+                  <>
+                    <Link href={`${orgState.org.facebook}`}>
+                      <FaFacebook />
+                    </Link>
+                    <Link href={`${orgState.org.instagram}`}>
+                      <FaInstagram />
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
           <div
             onClick={() => scrollToSection("clusters-section")}
-            className="absolute z-10 bottom-0 w-full p-10 bg-gradient-to-b from-white/30 to-secondary flex flex-col gap-2 items-center justify-center cursor-pointer font-bold"
+            className="absolute z-10 bottom-0 w-full p-10 bg-secondary/50 flex flex-col gap-2 items-center justify-center cursor-pointer font-bold"
           >
             <LuChevronsUp />
             <p>View Organizations</p>
