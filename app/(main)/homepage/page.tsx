@@ -18,8 +18,8 @@ const Homepage = () => {
   const { data: clusters, loading: clustersLoading } =
     useFetchData("/api/organizations");
 
-  const [selectedCluster, setSelectedCluster] = useState<ICluster | null>(null);
-  const [selectedOrg, setSelectedOrg] = useState<IOrganization | null>(null);
+  // const [selectedCluster, setSelectedCluster] = useState<ICluster | null>(null);
+  // const [selectedOrg, setSelectedOrg] = useState<IOrganization | null>(null);
 
   const [clusterState, setClusterState] = useState({
     cluster: null as ICluster | null,

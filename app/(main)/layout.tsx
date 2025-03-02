@@ -8,6 +8,8 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
+import Footer from "@/components/Footer";
+import useFetchData from "@/hooks/useFetchData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +42,7 @@ export default function RootLayout({
         <MantineProvider>
           <Navbar />
           {children}
+          <Footer />
         </MantineProvider>
       </body>
     </html>
