@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 .section1 {
-    @apply w-full min-h-screen flex flex-col justify-center gap-16 p-10;
+    @apply w-full min-h-screen flex flex-col items-center justify-center gap-16;
 }
 
 .section2 {
-    @apply w-full min-h-screen items-start justify-center;
+    @apply w-full min-h-screen p-10;
 }
 
 .section1 div {
-    @apply w-2/5;
+    @apply w-[80%];
 }
 
 .cso-heading {
-    @apply flex flex-col gap-2 text-5xl font-semibold uppercase;
+    @apply flex flex-col gap-2 text-7xl font-semibold uppercase;
 }
 
 .cso-summary {
