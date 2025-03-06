@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button, FileButton, FileInput, Image, Input } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { RichTextEditor, Link } from '@mantine/tiptap';
-import { IconFilePlus } from "@tabler/icons-react";
+import { IconCheck, IconFilePlus } from "@tabler/icons-react";
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ export default function CreateAnnouncementPage() {
   const [image, setImage] = useState<File | null>()
   const [imageName, setImageName] = useState<string>("")
   const [title, setTitle] = useState<string>("")
+  const [notifId, setNotifId] = useState<string>("")
 
   const { upload, error: uploadError, loading: uploadLoading, success: uploadSuccess } = useAnnouncementUpload()
 
@@ -45,16 +46,42 @@ export default function CreateAnnouncementPage() {
   }, [image])
 
   useEffect(() => {
-    if (uploadError) {
-      notifications.show({
-        title: "Error",
-        message: uploadError,
-        autoClose: 2000,
-        color: "red",
+    if (uploadLoading) {
+      setNotifId(notifications.show({
+        loading: true,
+        title: "Uploading your Announcement right now! ",
+        message: "Just sit down and chill we're doing cool things in the background!",
+        autoClose: false,
+        withCloseButton: false,
         position: "bottom-center"
-      })
+      }))
     }
-  }, [uploadError])
+
+    if (!uploadLoading) {
+      if (uploadError) {
+        notifications.update({
+          id: notifId,
+          title: "Oh no something went wrong!",
+          message: uploadError,
+          autoClose: 2000,
+          color: "red",
+          position: "bottom-center"
+        })
+      }
+      if (uploadSuccess) {
+        router.push("/secretadmin/dashboard/announcements");
+        notifications.update({
+          id: notifId,
+          title: "Upload Successful!",
+          message: "Your awesome announcement is now up in the web!",
+          autoClose: 2000,
+          loading: false,
+          icon: <IconCheck size={18} />,
+          position: "bottom-center"
+        })
+      }
+    }
+  }, [uploadError, uploadSuccess, uploadLoading])
 
   const uploadAnnouncement = async () => {
     const formDataUpload = new FormData()
@@ -85,8 +112,6 @@ export default function CreateAnnouncementPage() {
     if (image) {
       formDataUpload.append("image", image)
     }
-    console.log(formDataUpload.get("title"))
-    console.log(formDataUpload.get("body"))
 
     if (!user) {
       return
@@ -97,11 +122,8 @@ export default function CreateAnnouncementPage() {
 
   return (
     <>
-      <div className="w-full min-h-screen flex justify-center items-center">
+      <div className="w-full min-h-screen flex justify-center items-center py-10">
         <div className="w-1/2 h-full flex flex-col gap-5 justify-center items-center">
-          <div className="w-full flex justify-end items-center">
-            <Button onClick={uploadAnnouncement}>Post Announcement!</Button>
-          </div>
           <Input.Wrapper label="Title" description="Please write the title of the announcement here!" className="w-full">
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title goes here..." className="w-full h-full" />
           </Input.Wrapper>
@@ -164,8 +186,10 @@ export default function CreateAnnouncementPage() {
                 <FileInput accept="image/png,image/jpeg,image/jpg" className="w-full h-full flex justify-center items-center" placeholder={<IconFilePlus />} value={image} onChange={setImage} />
             }
           </div>
+          <div className="w-full flex justify-end items-center">
+            <Button onClick={uploadAnnouncement}>Post Announcement!</Button>
+          </div>
         </div>
-
       </div>
     </>
   )

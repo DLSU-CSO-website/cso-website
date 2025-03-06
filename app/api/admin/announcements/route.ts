@@ -12,7 +12,6 @@ export const POST = async (request: Request) => {
     const data = await request.formData()
     checkAdmin(request)
 
-    console.log(data.get("title"))
 
     if (data.get("image")) {
       const imageFile = data.get("image") as File
@@ -27,7 +26,6 @@ export const POST = async (request: Request) => {
       const newAnnouncement = await Announcement.createAnnouncement(String(data.get("title")), String(data.get("body")), result.secure_url)
       return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
     }
-    console.log("Hello")
     const newAnnouncement = await Announcement.createAnnouncement(String(data.get("title")), String(data.get("body")))
     return NextResponse.json({ data: newAnnouncement, message: "New Announcement successfully created!" }, { status: 200 })
   } catch (e) {
@@ -60,7 +58,6 @@ export const PUT = async (request: Request) => {
     }
 
     const newAnnouncement = await Announcement.editAnnouncement(String(data.get("title")), String(data.get("body")), String(data.get("id")))
-    console.log("Editted successfully!")
     return NextResponse.json({ data: newAnnouncement, message: String(data.get("title")) + " Announcement successfully edited!" }, { status: 200 })
   } catch (e) {
     const err = e as Error
