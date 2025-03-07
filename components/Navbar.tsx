@@ -1,11 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Navbar = () => {
-  const pages: Array<string> = [
-    "Home",
-    "About",
-    "Annual Activities",
-    "Organizations Specific",
+  const pagesRoute = [
+    {
+      pageName: "Home",
+      route: "/homepage",
+    },
+    {
+      pageName: "About",
+      route: "/about",
+    },
+    {
+      pageName: "Annual Activities",
+      route: "/annualactivities",
+    },
+    {
+      pageName: "Organizations",
+      route: "/organizations",
+    },
   ];
 
   return (
@@ -14,10 +27,14 @@ const Navbar = () => {
         <Image src="/cso-logo-green.png" width={50} height={50} alt="logo" />
       </div>
       <div className="w-fit flex items-center gap-10">
-        {pages.map((page) => (
-          <a key={page} className="text-secondary uppercase font-semibold">
-            {page}
-          </a>
+        {pagesRoute.map((page, key: number) => (
+          <Link
+            href={`${page.route}`}
+            key={key}
+            className="text-secondary uppercase font-semibold"
+          >
+            {page.pageName}
+          </Link>
         ))}
       </div>
     </div>
