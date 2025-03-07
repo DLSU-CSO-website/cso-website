@@ -31,7 +31,7 @@ const Navbar = () => {
           <Link
             href={`${page.route}`}
             key={key}
-            className="text-secondary uppercase font-semibold"
+            className="text-secondary uppercase font-semibold cursor-pointer"
           >
             {page.pageName}
           </Link>
