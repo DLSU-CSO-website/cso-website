@@ -1,5 +1,6 @@
 import { getAnnualActivities } from "@/libs/contentful/services/aa.services";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function SpecificAnnualActivity({
   params,
@@ -38,6 +39,10 @@ export default async function SpecificAnnualActivity({
         />
       )}
       <p className="text-lg max-w-2xl text-center">{description}</p>
+
+      <Link href="/annualactivities">
+        <p>Back to Annual Activities</p>
+      </Link>
     </main>
   );
 }

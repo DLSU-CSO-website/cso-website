@@ -21,7 +21,7 @@ export default async function AnnualActivities() {
             href={`/annualactivities/${activity.sys.id}`}
             key={activity.sys.id}
           >
-            <div className="p-4 flex flex-col items-center">
+            <div className="p-4 flex flex-col items-center hover:scale-125 transition ease-in-out duration-70">
               {activity.fields.logo &&
                 activity.fields.logo.fields?.file.url && (
                   <Image
