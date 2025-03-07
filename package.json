@@ -21,7 +21,7 @@
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",
-    "contentful": "^11.3.3",
+    "contentful": "^11.5.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.2",
     "next": "15.1.2",
