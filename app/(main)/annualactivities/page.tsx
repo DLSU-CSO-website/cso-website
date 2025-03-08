@@ -5,8 +5,6 @@ import Link from "next/link";
 export default async function AnnualActivities() {
   const annualActivities = await getAnnualActivities();
 
-  console.log(annualActivities);
-
   return (
     <main className="w-full min-h-screen p-32 flex flex-col items-center justify-center gap-6 gradient-background-light">
       <div className="w-full flex flex-col items-center justify-center gap-3">
@@ -18,16 +16,16 @@ export default async function AnnualActivities() {
       <div className="w-full flex items-center justify-center gap-4">
         {annualActivities?.map((activity) => (
           <Link
-            href={`/annualactivities/${activity.sys.id}`}
-            key={activity.sys.id}
+            href={`/annualactivities/${activity.title}`}
+            key={activity.title}
           >
             <div className="p-4 flex flex-col items-center">
-              {activity.fields.logo &&
-                activity.fields.logo.fields?.file.url && (
+              {activity.logo && activity.logo.fields.file &&
+                activity.logo.fields.file.url && (
                   <Image
                     width={200}
                     height={200}
-                    src={`https:${activity.fields.logo.fields?.file.url}`}
+                    src={`https:${activity.logo.fields.file.url}`}
                     alt={`activity.fields.title}`}
                     className="object-contain"
                   />

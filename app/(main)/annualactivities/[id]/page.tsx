@@ -1,4 +1,4 @@
-import { getAnnualActivities } from "@/libs/contentful/services/aa.services";
+import { getAnnualActivityByName } from "@/libs/contentful/services/aa.services";
 import Image from "next/image";
 
 export default async function SpecificAnnualActivity({
@@ -6,10 +6,13 @@ export default async function SpecificAnnualActivity({
 }: {
   params: { id: string };
 }) {
-  const annualActivities = await getAnnualActivities();
+
+  const { id } = await params
+
+  const decoded = decodeURIComponent(id)
+  const activity = await getAnnualActivityByName(decoded);
 
   // Find the specific activity by matching the ID from the URL
-  const activity = annualActivities?.find((item) => item.sys.id === params.id);
 
   // If no matching activity is found, show a 404-like message
   if (!activity) {
@@ -20,7 +23,7 @@ export default async function SpecificAnnualActivity({
     );
   }
 
-  const { title, description, logo } = activity.fields;
+  const { title, description, logo } = activity;
   const logoUrl = logo?.fields?.file?.url
     ? `https:${logo.fields.file.url}`
     : null;
