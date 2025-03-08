@@ -28,7 +28,7 @@ export default function DashboardPage() {
         router.push("/secretadmin")
       }
     }
-  }, [user, loading])
+  }, [user, loading, router])
   return (
     <div className="w-full h-screen flex flex-auto justify-center items-center gap-10">
       {

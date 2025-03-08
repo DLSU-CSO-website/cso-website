@@ -6,67 +6,61 @@ import useFetchData from "@/hooks/useFetchData";
 import { IAnnouncement } from "@/types/announcement.types";
 import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";
 import { Loader } from "@mantine/core";
-import { useState } from "react";
-import { IOrganization } from "@/types/organization.types";
-import { ICluster } from "@/types/cluster.types";
-import { LuChevronsUp } from "react-icons/lu";
+// import { useState } from "react";
+// import { IOrganization } from "@/types/organization.types";
+// import { ICluster } from "@/types/cluster.types";
 import { LuChevronsDown } from "react-icons/lu";
-import { FaFacebook } from "react-icons/fa6";
-import { FaInstagram } from "react-icons/fa6";
-//import { MdOutlineMail } from "react-icons/md";
-import Link from "next/link";
 
 const Homepage = () => {
   // data fetching
   const { data: announcements, loading: announcementsLoading } =
     useFetchData("/api/announcements");
-  const { data: clusters, loading: clustersLoading } =
-    useFetchData("/api/organizations");
+  // const { data: clusters, loading: clustersLoading } =
+  //   useFetchData("/api/organizations");
 
   // const [selectedCluster, setSelectedCluster] = useState<ICluster | null>(null);
   // const [selectedOrg, setSelectedOrg] = useState<IOrganization | null>(null);
 
-  const [clusterState, setClusterState] = useState({
-    cluster: null as ICluster | null,
-    visible: true,
-  });
+  // const [_clusterState, setClusterState] = useState({
+  //   cluster: null as ICluster | null,
+  //   visible: true,
+  // });
+  //
+  // const [_orgState, setOrgState] = useState({
+  //   org: null as IOrganization | null,
+  //   visible: true,
+  // });
 
-  const [orgState, setOrgState] = useState({
-    org: null as IOrganization | null,
-    visible: true,
-  });
+  // const totalOrganizations =
+  //   clusters?.reduce(
+  //     (sum: number, cluster: ICluster) => sum + cluster.organizations.length,
+  //     0,
+  //   ) || 0;
 
-  const totalOrganizations =
-    clusters?.reduce(
-      (sum: number, cluster: ICluster) => sum + cluster.organizations.length,
-      0,
-    ) || 0;
 
-  const [fadeIn, setFadeIn] = useState(false);
+  // const handleClusterChange = (cluster: ICluster) => {
+  //   // First set visibility to false (triggers fade out)
+  //   setClusterState((prev) => ({ ...prev, visible: false }));
+  //
+  //   // Use requestAnimationFrame for better performance
+  //   requestAnimationFrame(() => {
+  //     // After the next animation frame, update content
+  //     setTimeout(() => {
+  //       setClusterState({ cluster, visible: true });
+  //     }, 150); // Just enough time for fade out to complete
+  //   });
+  // };
 
-  const handleClusterChange = (cluster: ICluster) => {
-    // First set visibility to false (triggers fade out)
-    setClusterState((prev) => ({ ...prev, visible: false }));
-
-    // Use requestAnimationFrame for better performance
-    requestAnimationFrame(() => {
-      // After the next animation frame, update content
-      setTimeout(() => {
-        setClusterState({ cluster, visible: true });
-      }, 150); // Just enough time for fade out to complete
-    });
-  };
-
-  const handleOrgChange = (org: IOrganization) => {
-    setOrgState((prev) => ({ ...prev, visible: false }));
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        setOrgState({ org, visible: true });
-        scrollToSection("org-section");
-      }, 150);
-    });
-  };
+  // const handleOrgChange = (org: IOrganization) => {
+  //   setOrgState((prev) => ({ ...prev, visible: false }));
+  //
+  //   requestAnimationFrame(() => {
+  //     setTimeout(() => {
+  //       setOrgState({ org, visible: true });
+  //       scrollToSection("org-section");
+  //     }, 150);
+  //   });
+  // };
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);

@@ -4,7 +4,7 @@ import useAnnouncementDelete from "@/hooks/useAnnouncementDelete";
 import useAnnouncementEdit from "@/hooks/useAnnouncementEdit";
 import { useAuth } from "@/hooks/useAuth";
 import useFetchData from "@/hooks/useFetchData";
-import { Button, Loader, Input, Image, FileButton, FileInput, Modal } from "@mantine/core";
+import { Button, Input, Image, FileButton, FileInput, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { RichTextEditor } from "@mantine/tiptap";
@@ -19,7 +19,7 @@ const ViewAnnouncement = () => {
   const { user, loading: userLoading } = useAuth()
   const router = useRouter()
   const { id } = useParams(); // Get the id from the URL
-  const { data, loading, error } = useFetchData("/api/announcements/" + id)
+  const { data, loading } = useFetchData("/api/announcements/" + id)
   const [image, setImage] = useState<string>("")
   const [title, setTitle] = useState<string>("")
   const [notifId, setNotifId] = useState<string>("")
@@ -119,7 +119,7 @@ const ViewAnnouncement = () => {
         router.push("/secretadmin/dashboard/announcements")
       }
     }
-  }, [success, editLoading, editError, deleteSuccess, deleteError, deleteLoading])
+  }, [success, editLoading, editError, deleteSuccess, deleteError, deleteLoading, router, notifId, deleteNotifId])
 
   useEffect(() => {
     if (!userLoading) {
@@ -127,7 +127,7 @@ const ViewAnnouncement = () => {
         router.push("/secretadmin")
       }
     }
-  }, [user, userLoading])
+  }, [user, userLoading, router])
 
   useEffect(() => {
     if (imageFile) {
@@ -161,7 +161,7 @@ const ViewAnnouncement = () => {
       //   router.push("/secretadmin/dashboard/announcements")
       // }
     }
-  }, [data, editor])
+  }, [data, editor, loading])
 
   const saveChanges = () => {
     const formDataChanges = new FormData()
@@ -279,7 +279,7 @@ const ViewAnnouncement = () => {
             {
               image ?
                 <>
-                  <Image className="object-center w-full h-full" fit="cover" src={image} />
+                  <Image className="object-center w-full h-full" fit="cover" src={image} alt={image} />
                   <div className="w-full mt-2 flex justify-center items-center">
                     <FileButton accept="image/png,image/jpeg,image/jpg" onChange={setImageFile}>
                       {

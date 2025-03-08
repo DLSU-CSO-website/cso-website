@@ -34,7 +34,7 @@ export default function CreateAnnouncementPage() {
         router.push("/secretadmin")
       }
     }
-  }, [user, userLoading])
+  }, [user, userLoading, router])
 
   useEffect(() => {
     if (image) {
@@ -81,7 +81,7 @@ export default function CreateAnnouncementPage() {
         })
       }
     }
-  }, [uploadError, uploadSuccess, uploadLoading])
+  }, [uploadError, uploadSuccess, uploadLoading, notifId, router])
 
   const uploadAnnouncement = async () => {
     const formDataUpload = new FormData()
@@ -171,7 +171,7 @@ export default function CreateAnnouncementPage() {
             {
               imageName ?
                 <>
-                  <Image className="object-center w-full h-full" fit="cover" src={imageName} />
+                  <Image className="object-center w-full h-full" fit="cover" src={imageName} alt={imageName} />
                   <div className="w-full mt-2 flex justify-center items-center">
                     <FileButton accept="image/png,image/jpeg,image/jpg" onChange={setImage}>
                       {

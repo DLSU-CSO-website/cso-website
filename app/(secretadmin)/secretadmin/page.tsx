@@ -32,7 +32,7 @@ export default function LoginPage() {
       })
     }
 
-  }, [success, error])
+  }, [success, error, router])
 
   useEffect(() => {
     if (!userLoading) {
@@ -40,7 +40,7 @@ export default function LoginPage() {
         router.push("secretadmin/dashboard")
       }
     }
-  }, [user, userLoading])
+  }, [user, userLoading, router])
 
   const loginUser = () => {
     login(username, password)

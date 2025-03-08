@@ -22,7 +22,7 @@ export default function AnnouncementDashboard() {
         router.push("/secretadmin")
       }
     }
-  }, [user, userLoading])
+  }, [user, userLoading, router])
 
   useEffect(() => {
     if (error !== "") {
@@ -31,7 +31,7 @@ export default function AnnouncementDashboard() {
         message: data.message
       })
     }
-  }, [error])
+  }, [error, data])
 
   return (
     <div className="p-8 w-full min-h-screen bg-gradient-to-br from-white to-slate-200 flex flex-col md:flex-row flex-wrap justify-center items-center gap-10">

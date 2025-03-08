@@ -18,14 +18,13 @@ export default function ClusterPage() {
   const [clusters, setClusters] = useState<ICluster[]>([]);
   const [editingClusterId, setEditingClusterId] = useState<string | null>(null);
   const [globalLoading, setGlobalLoading] = useState(false);
-  
+
   const router = useRouter();
   useEffect(() => {
     if (!userLoading && !user) {
       router.push("/secretadmin");
-      console.log(data);
     }
-  }, [user, loading]);
+  }, [user, loading, router, userLoading]);
 
   useEffect(() => {
     if (data) {

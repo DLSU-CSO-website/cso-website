@@ -1,14 +1,11 @@
 import { getAnnualActivityByName } from "@/libs/contentful/services/aa.services";
 import Image from "next/image";
 
-export default async function SpecificAnnualActivity({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Params = Promise<{ id: string }>
+
+export default async function SpecificAnnualActivity({ params }: { params: Params }) {
 
   const { id } = await params
-
   const decoded = decodeURIComponent(id)
   const activity = await getAnnualActivityByName(decoded);
 
