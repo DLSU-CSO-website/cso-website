@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    @apply font-[Lexend];
+}
 
 .gradient-background {
     @apply bg-gradient-to-br from-primary to-secondary;
@@ -11,7 +16,7 @@
 }
 
 .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary via-secondary;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary via-secondary;
 }
 
 .gradient-text-light {

@@ -5,7 +5,7 @@ const Navbar = () => {
   const pagesRoute = [
     {
       pageName: "Home",
-      route: "/homepage",
+      route: "/",
     },
     {
       pageName: "About",
@@ -22,7 +22,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="fixed z-40 w-full h-fit px-6 py-4 bg-primary/80 backdrop-blur drop-shadow-md flex items-center justify-between">
+    <div className="z-40 top-0 sticky w-full h-fit px-6 py-4 bg-primary/80 backdrop-blur drop-shadow-md flex items-center justify-between">
       <div>
         <Image src="/cso-logo-green.png" width={50} height={50} alt="logo" />
       </div>
