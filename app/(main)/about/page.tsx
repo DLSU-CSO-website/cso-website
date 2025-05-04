@@ -173,7 +173,7 @@ const About = () => {
         </div>
         <div className="w-full p-1 gradient-background"></div>
       </section>
-      <section className="w-full min-h-screen flex items-center justify-center">
+      <section className="w-full min-h-screen p-24 flex items-center justify-center">
         <Image
           src="/org-structure-2.png"
           alt="Org Structure"

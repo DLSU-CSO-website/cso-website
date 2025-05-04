@@ -9,7 +9,6 @@ import { Loader } from "@mantine/core";
 // import { useState } from "react";
 // import { IOrganization } from "@/types/organization.types";
 // import { ICluster } from "@/types/cluster.types";
-import { LuChevronsDown } from "react-icons/lu";
 
 const Homepage = () => {
   // data fetching
@@ -25,20 +24,19 @@ const Homepage = () => {
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center">
-      <section className="section-layout gradient-background relative">
+      <section className="section-layout gradient-background flex-col gap-6">
         <Image
           src="/cso-logo-green.png"
-          width={500}
-          height={500}
+          width={300}
+          height={300}
           alt="CSO Logo"
         />
-        <div
+        <button
+          className="bg-primary text-secondary inner-box-shadow px-6 py-4 rounded-full"
           onClick={() => scrollToSection("title-section")}
-          className="absolute z-10 bottom-0 w-full p-10 bg-gradient-to-b from-white/30 to-white flex flex-col gap-2 items-center justify-center cursor-pointer font-bold"
         >
-          <p>Explore</p>
-          <LuChevronsDown />
-        </div>
+          <p className="text-xl font-semibold uppercase">Explore cso</p>
+        </button>
       </section>
       <section
         id="title-section"
@@ -48,7 +46,7 @@ const Homepage = () => {
           <p className="scroll-in-animation w-full text-xl uppercase font-bold gradient-text">
             Council of Student Organizations
           </p>
-          <h1 className="scroll-in-animation w-full text-7xl uppercase font-black gradient-text">
+          <h1 className="scroll-in-animation uppercase text-6xl font-bold text-shadow">
             Always for the passion for service
           </h1>
           <hr className="scroll-in-animation w-full border-4 border-primary" />
@@ -57,11 +55,11 @@ const Homepage = () => {
           </p>
         </div>
       </section>
-      <section className="section-layout flex flex-col justify-center gradient-background-light gap-10">
+      <section className="w-full min-h-screen p-24 flex flex-col items-center justify-center gradient-background-light gap-16">
         <h1 className="text-5xl uppercase gradient-text font-bold">
           announcements
         </h1>
-        <div className="w-full flex gap-6 items-center justify-center">
+        <div className="w-full flex flex-wrap gap-16 items-center justify-center">
           {announcementsLoading ? (
             <Loader />
           ) : (
