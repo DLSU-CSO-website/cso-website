@@ -169,6 +169,7 @@ export default function Page() {
         logo: '',
       });
     } catch (error) {
+      console.log(error)
       notifications.show({
         title: "Error",
         message: "Failed to create organization",
