@@ -35,7 +35,6 @@ export default function SecretAdminLayout({
       >
         <MantineProvider>
           <AuthContextProvider>
-            <AdminNav />
             <Notifications />
             {children}
           </AuthContextProvider>
