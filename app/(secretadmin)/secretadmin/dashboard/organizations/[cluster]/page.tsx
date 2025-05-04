@@ -1,4 +1,5 @@
 'use client'
+
 import OrganizationDashCard from '@/components/OrganizationDashCard';
 import { useAuth } from '@/hooks/useAuth';
 import useFetchData from '@/hooks/useFetchData';
@@ -36,18 +37,21 @@ export default function Page() {
 
   const { upload, error: uploadError } = useOrganizationUpload();
 
+  // Protect against unauthorized access
   useEffect(() => {
     if (!userLoading && !user) {
       router.push("/secretadmin");
     }
   }, [user, userLoading, router]);
 
+  // Set organizations when data loads
   useEffect(() => {
     if (data) {
       setOrganizations(data);
     }
   }, [data]);
 
+  // Handle error notifications
   useEffect(() => {
     if (error !== "") {
       notifications.show({
@@ -57,15 +61,23 @@ export default function Page() {
     }
   }, [error]);
 
+  // Handle imageFile changes - FIXED FOR HYDRATION
   useEffect(() => {
-    if (imageFile) {
-      const objectUrl = URL.createObjectURL(imageFile);
-      setImageName(objectUrl);
-    } else {
-      setImageName("");
+    // Only run this in the browser, not during server-side rendering
+    if (typeof window === 'undefined' || !imageFile) {
+      return;
     }
+
+    const objectUrl = URL.createObjectURL(imageFile);
+    setImageName(objectUrl);
+
+    // Clean up function to prevent memory leaks
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
   }, [imageFile]);
 
+  // Handle upload errors
   useEffect(() => {
     if (uploadError) {
       notifications.show({
@@ -83,13 +95,21 @@ export default function Page() {
     setImageFile(null);
   };
 
+  // FIXED: Only run browser-specific code on the client
   const handleCardClick = async (organization: IOrganization) => {
     setEditFormValues(organization);
     setShowEditForm(true);
-    if (organization.logo) {
+
+    // Only run browser-specific code on the client
+    if (typeof window !== 'undefined' && organization.logo) {
       setImageName(organization.logo);
-      const file = await urlToFile(organization.logo, 'logo.jpg', 'image/jpeg');
-      setImageFile(file);
+      try {
+        const file = await urlToFile(organization.logo, 'logo.jpg', 'image/jpeg');
+        setImageFile(file);
+      } catch (error) {
+        console.error('Error converting URL to file:', error);
+        setImageFile(null);
+      }
     }
   };
 
@@ -110,51 +130,61 @@ export default function Page() {
     setShowForm(false);
     setGlobalLoading(true);
 
-    const formDataUpload = new FormData();
-    formDataUpload.append("abbreviatedName", formValues.abbreviatedName);
-    formDataUpload.append("name", formValues.name);
-    formDataUpload.append("orgDesc", formValues.orgDesc);
-    formDataUpload.append("programs", formValues.programs);
-    formDataUpload.append("facebook", formValues.facebook);
-    formDataUpload.append("instagram", formValues.instagram);
-    if (imageFile) {
-      formDataUpload.append("image", imageFile);
-    }
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append("abbreviatedName", formValues.abbreviatedName);
+      formDataUpload.append("name", formValues.name);
+      formDataUpload.append("orgDesc", formValues.orgDesc);
+      formDataUpload.append("programs", formValues.programs);
+      formDataUpload.append("facebook", formValues.facebook);
+      formDataUpload.append("instagram", formValues.instagram);
+      if (imageFile) {
+        formDataUpload.append("image", imageFile);
+      }
 
-    if (!user) {
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+
+      await upload(formDataUpload, cluster, user.token);
+
+      // False update to see the changes instantaneously
+      setOrganizations([...organizations, { ...formValues, logo: imageName }]);
+
+      notifications.show({
+        title: "Success",
+        message: "Organization created successfully",
+        autoClose: 2000,
+        color: "green",
+        position: "bottom-center"
+      });
+
+      setFormValues({
+        abbreviatedName: '',
+        name: '',
+        orgDesc: '',
+        programs: '',
+        facebook: '',
+        instagram: '',
+        logo: '',
+      });
+    } catch (error) {
+      console.log(error)
+      notifications.show({
+        title: "Error",
+        message: "Failed to create organization",
+        autoClose: 2000,
+        color: "red",
+        position: "bottom-center"
+      });
+    } finally {
       setGlobalLoading(false);
-      return;
     }
-
-    await upload(formDataUpload, cluster, user.token);
-
-    // False update to see the changes instantaneously
-    setOrganizations([...organizations, { ...formValues, logo: imageName }]);
-
-    notifications.show({
-      title: "Success",
-      message: "Organization created successfully",
-      autoClose: 2000,
-      color: "green",
-      position: "bottom-center"
-    });
-
-    setFormValues({
-      abbreviatedName: '',
-      name: '',
-      orgDesc: '',
-      programs: '',
-      facebook: '',
-      instagram: '',
-      logo: '',
-    });
-
-    setGlobalLoading(false);
   };
 
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShowForm(false);
+    setShowEditForm(false);
     setGlobalLoading(true);
 
     if (!editFormValues) {
@@ -162,23 +192,22 @@ export default function Page() {
       return;
     }
 
-    const formDataUpload = new FormData();
-    formDataUpload.append("abbreviatedName", editFormValues.abbreviatedName);
-    formDataUpload.append("name", editFormValues.name);
-    formDataUpload.append("orgDesc", editFormValues.orgDesc);
-    formDataUpload.append("programs", editFormValues.programs || '');
-    formDataUpload.append("facebook", editFormValues.facebook || '');
-    formDataUpload.append("instagram", editFormValues.instagram || '');
-    if (imageFile) {
-      formDataUpload.append("image", imageFile);
-    }
-
-    if (!user) {
-      setGlobalLoading(false);
-      return;
-    }
-
     try {
+      const formDataUpload = new FormData();
+      formDataUpload.append("abbreviatedName", editFormValues.abbreviatedName);
+      formDataUpload.append("name", editFormValues.name);
+      formDataUpload.append("orgDesc", editFormValues.orgDesc);
+      formDataUpload.append("programs", editFormValues.programs || '');
+      formDataUpload.append("facebook", editFormValues.facebook || '');
+      formDataUpload.append("instagram", editFormValues.instagram || '');
+      if (imageFile) {
+        formDataUpload.append("image", imageFile);
+      }
+
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+
       // API call to update the organization details in the database
       const response = await fetch(`/api/admin/organizations/${cluster}/edit?id=${editFormValues._id}&cluster=${cluster}`, {
         method: 'POST',
@@ -202,7 +231,6 @@ export default function Page() {
         color: "green",
         position: "bottom-center"
       });
-      setShowEditForm(false);
       setEditFormValues(null);
     } catch (error) {
       const err = error as Error;
@@ -219,7 +247,6 @@ export default function Page() {
   };
 
   const handleDelete = async () => {
-    setShowForm(false);
     if (!editFormValues) return;
     if (!user) {
       setGlobalLoading(false);
@@ -264,7 +291,13 @@ export default function Page() {
     }
   };
 
+  // FIXED: Made urlToFile function safer for SSR context
   const urlToFile = async (url: string, filename: string, mimeType: string): Promise<File> => {
+    // This should only run in the browser
+    if (typeof window === 'undefined') {
+      throw new Error('urlToFile can only be called in browser environment');
+    }
+
     const res = await fetch(url);
     const buffer = await res.arrayBuffer();
     return new File([buffer], filename, { type: mimeType });
@@ -292,6 +325,7 @@ export default function Page() {
         opened={showForm}
         onClose={() => setShowForm(false)}
         title="Create New Organization"
+        size={'xl'}
         centered
       >
         <form onSubmit={handleSubmit}>
@@ -315,7 +349,9 @@ export default function Page() {
             value={formValues.orgDesc}
             onChange={handleInputChange}
             required
-            minRows={4}
+            classNames={{
+              input: "h-52"
+            }}
           />
           <TextInput
             label="Programs"
@@ -335,11 +371,11 @@ export default function Page() {
             value={formValues.instagram}
             onChange={handleInputChange}
           />
-          <div className="w-full h-1/4 mt-10">
+          <div className="w-full h-1/4 mt-10 flex flex-col justify-center items-center">
             {
               imageName ?
                 <>
-                  <Image className="object-center w-full h-full" fit="cover" src={imageName} alt={imageName} />
+                  <Image className="object-center" h={200} w={200} fit="cover" src={imageName} alt={imageName} />
                   <div className="w-full mt-2 flex justify-center items-center">
                     <FileButton accept="image/png,image/jpeg,image/jpg" onChange={setImageFile}>
                       {
@@ -354,7 +390,7 @@ export default function Page() {
                 <FileInput accept="image/png,image/jpeg,image/jpg" className="w-full h-full flex justify-center items-center" placeholder={<IconFilePlus />} value={imageFile} onChange={setImageFile} />
             }
           </div>
-          <Group align="right" mt="md">
+          <Group mt="md">
             <Button type="submit">Submit</Button>
           </Group>
         </form>
@@ -364,6 +400,7 @@ export default function Page() {
         opened={showEditForm}
         onClose={() => setShowEditForm(false)}
         title="Edit Organization"
+        size={'xl'}
         centered
       >
         <form onSubmit={handleEditSubmit}>
@@ -386,8 +423,10 @@ export default function Page() {
             name="orgDesc"
             value={editFormValues?.orgDesc || ''}
             onChange={handleEditInputChange}
+            classNames={{
+              input: "h-52"
+            }}
             required
-            minRows={4}
           />
           <TextInput
             label="Programs"
@@ -407,11 +446,11 @@ export default function Page() {
             value={editFormValues?.instagram || ''}
             onChange={handleEditInputChange}
           />
-          <div className="w-full h-1/4 mt-10">
+          <div className="w-full h-1/4 mt-10 flex flex-col justify-center items-center">
             {
               imageName ?
                 <>
-                  <Image className="object-center w-full h-full" fit="cover" src={imageName} alt={imageName} />
+                  <Image className="object-center" h={200} w={200} fit='cover' src={imageName} alt={imageName} />
                   <div className="w-full mt-2 flex justify-center items-center">
                     <FileButton accept="image/png,image/jpeg,image/jpg" onChange={setImageFile}>
                       {
@@ -426,7 +465,7 @@ export default function Page() {
                 <FileInput accept="image/png,image/jpeg,image/jpg" className="w-full h-full flex justify-center items-center" placeholder={<IconFilePlus />} value={imageFile} onChange={setImageFile} />
             }
           </div>
-          <Group align="right" mt="md">
+          <Group mt="md">
             <Button type="submit">Save Changes</Button>
             <Button color="red" onClick={handleDelete}>Delete</Button>
           </Group>

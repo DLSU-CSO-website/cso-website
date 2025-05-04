@@ -6,7 +6,7 @@ import useFetchData from '@/hooks/useFetchData';
 import { ICluster } from "@/types/cluster.types";
 import { Button, Card, Loader, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -100,9 +100,9 @@ export default function ClusterPage() {
   }
 
   return (
-    <div className="p-8 w-full h-screen bg-gradient-to-br from-white to-slate-200 flex flex-col md:flex-row justify-center items-center gap-10">
+    <div className="p-8 w-full h-screen bg-gradient-to-br from-white to-slate-200 flex flex-wrap justify-center items-center gap-10">
       {loading || globalLoading ? <Loader /> : (
-        <div className="flex flex-wrap justify-center items-center gap-10">
+        <>
           {clusters.map((cluster: ICluster) => (
             <ClusterDashCard
               key={cluster._id?.toString()}
@@ -115,9 +115,10 @@ export default function ClusterPage() {
               setGlobalLoading={setGlobalLoading}
             />
           ))}
-          <Card shadow="md" radius="md" padding="lg" withBorder className="w-96 h-64 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer">
+          <Card shadow="md" radius="md" padding="lg" withBorder className="w-80 h-72 flex justify-center items-center transition ease-in-out duration-200 hover:scale-110 cursor-pointer" >
             {showForm ? (
               <form onSubmit={handleSubmit} className="w-full">
+                <IconX onClick={() => setShowForm(false)} className="absolute top-2 left-2 cursor-pointer" style={{ color: 'black' }} />
                 <TextInput
                   label="Abbreviated Name"
                   name="abbreviatedName"
@@ -137,10 +138,12 @@ export default function ClusterPage() {
                 </Button>
               </form>
             ) : (
-              <IconPlus stroke={2} width={"80"} height={"80"} color="gray" onClick={handleIconClick} />
+              <div className="w-full h-full flex justify-center items-center" onClick={handleIconClick} >
+                <IconPlus stroke={2} width={"80"} height={"72"} color="gray" />
+              </div>
             )}
           </Card>
-        </div>
+        </>
       )}
     </div>
   );
