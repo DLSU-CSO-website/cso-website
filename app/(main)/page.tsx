@@ -6,6 +6,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { IAnnouncement } from "@/types/announcement.types";
 import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";
 import { Loader } from "@mantine/core";
+import { useState } from "react";
 // import { useState } from "react";
 // import { IOrganization } from "@/types/organization.types";
 // import { ICluster } from "@/types/cluster.types";
@@ -21,6 +22,13 @@ const Homepage = () => {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  const [searchQuery, setSearchQuery] = useState(""); // Add state for search query
+
+  // Filter announcements based on search query
+  const filteredAnnouncements = announcements?.filter((announcement: IAnnouncement) =>
+    announcement.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center">
@@ -56,12 +64,23 @@ const Homepage = () => {
         </div>
       </section>
       <section className="w-full min-h-screen p-24 flex flex-col items-center justify-center gradient-background-light gap-16">
-        <h1 className="text-5xl uppercase gradient-text font-bold">
+      <h1 className="text-5xl uppercase gradient-text font-bold">
           announcements
         </h1>
+        <input
+          type="text"
+          placeholder="Search announcements..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-1/2 p-4 border border-gray-300 rounded-lg"
+        />
         <div className="w-full flex flex-wrap gap-16 items-center justify-center">
           {announcementsLoading ? (
             <Loader />
+          ) : searchQuery ? (
+            filteredAnnouncements?.map((announcement: IAnnouncement, key: number) => (
+              <AnnouncementHomeCard key={key} announcement={announcement} />
+            ))
           ) : (
             announcements?.map((announcement: IAnnouncement, key: number) => (
               <AnnouncementHomeCard key={key} announcement={announcement} />
