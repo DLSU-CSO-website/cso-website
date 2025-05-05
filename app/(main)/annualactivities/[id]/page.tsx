@@ -1,7 +1,35 @@
 import { getAnnualActivityByName } from "@/libs/contentful/services/aa.services";
+import { Metadata } from "next";
 import Image from "next/image";
 
 type Params = Promise<{ id: string }>
+
+export async function generateMetadata(
+  { params }: {
+    params: Params
+  }): Promise<Metadata> {
+
+  const name = (await params).id
+
+  const aa = await getAnnualActivityByName(decodeURIComponent(name))
+
+  if (!aa) {
+    return {
+      title: "Council of Student Organizations",
+      description: "The Council of Student Organizations (CSO) is the union of accredited professional (PROF), special interest (SPIN) and socio-civic organizations of De La Salle University. Since its founding in 1974, the Council has continuously delivered quality student services and has produced outstanding student leaders dedicated to serving and contributing to the Lasallian Community.",
+    }
+  }
+
+  return {
+    title: aa.title,
+    description: aa.description,
+    openGraph: {
+      images: [aa.logo?.fields.file?.url || '/cso-logo-green.png'],
+      title: aa.title,
+      description: aa.description
+    }
+  }
+}
 
 export default async function SpecificAnnualActivity({ params }: { params: Params }) {
 

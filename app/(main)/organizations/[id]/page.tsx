@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 // [slug]/page.tsx (Server Component)
 import OrganizationSpecificClient from "@/components/OrganizationSpecificClient";

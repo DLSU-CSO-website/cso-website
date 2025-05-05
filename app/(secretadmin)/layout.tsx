@@ -27,6 +27,7 @@ export default function SecretAdminLayout({
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
+        <title>CSO Secret Admin</title>
         <ColorSchemeScript />
       </head>
       <body

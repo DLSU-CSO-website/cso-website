@@ -83,6 +83,7 @@ announcementSchema.static(
   }
 )
 
-const Announcement = model<IAnnouncement, AnnouncementModel>("Announcement", announcementSchema);
+// const Cluster = (models.Cluster as ClusterModel) || model<ICluster, ClusterModel>("Cluster", clusterSchema);
+const Announcement = (models.Announcement as AnnouncementModel) || model<IAnnouncement, AnnouncementModel>("Announcement", announcementSchema);
 
 export default Announcement

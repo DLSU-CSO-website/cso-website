@@ -1,5 +1,5 @@
 import { IAdmin } from "@/types/admin.types";
-import { Model, Schema, model } from "mongoose"
+import { Model, Schema, model, models } from "mongoose"
 import bcrypt from "bcrypt"
 // import jwt from "jsonwebtoken"
 
@@ -56,6 +56,6 @@ adminSchema.static(
 )
 
 
-const Admin = model<IAdmin, AdminModel>("Admin", adminSchema)
+const Admin = (models.Admin as AdminModel) || model<IAdmin, AdminModel>("Admin", adminSchema)
 
 export default Admin
