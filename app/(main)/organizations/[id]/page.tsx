@@ -1,8 +1,13 @@
-"use client";
+'use client'
 
 // [slug]/page.tsx (Server Component)
 import OrganizationSpecificClient from "@/components/OrganizationSpecificClient";
-import { useParams} from 'next/navigation';
+import { useParams } from 'next/navigation';
+
+// export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+//   const id = (await params).id
+//
+// }
 
 export default function OrganizationSpecificPage() {
   const params = useParams();
