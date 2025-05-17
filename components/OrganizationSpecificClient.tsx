@@ -10,7 +10,6 @@ import { Loader } from "@mantine/core";
 import useFetchData from "@/hooks/useFetchData";
 import { Types } from "mongoose";
 
-
 export default function OrganizationSpecificClient({
   id,
 }: {
@@ -63,7 +62,6 @@ export default function OrganizationSpecificClient({
     );
   }
 
-
   // {
   //   org &&
   //   <Head>
@@ -90,15 +88,16 @@ export default function OrganizationSpecificClient({
             {/* Organization Info */}
             <div className="w-1/2 min-h-screen px-24 py-10 flex flex-col items-center justify-evenly gradient-background relative">
               <div className="w-full flex flex-col items-center gap-8">
-                <h1 className="text-5xl uppercase font-bold text-white text-center">
+                <h1 className="text-3xl uppercase font-bold text-white text-center">
                   {org.name}
                 </h1>
+                <div className="w-full ">
+                  <p className="text-xl text-white font-bold text-justify">
+                    {org.orgDesc}
+                  </p>
+                </div>
               </div>
-              <div className="w-full h-full">
-                <p className="text-2xl text-white font-bold text-justify">
-                  {org.orgDesc}
-                </p>
-              </div>
+
               <div className="w-full flex items-center justify-end gap-4 text-4xl text-white">
                 {(org.facebook || org.instagram) && (
                   <>

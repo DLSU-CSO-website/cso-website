@@ -3,26 +3,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 * {
-    @apply font-[Lexend];
+  @apply font-[Lexend];
 }
 
 .gradient-background {
-    @apply bg-gradient-to-br from-primary to-secondary;
+  @apply bg-gradient-to-br from-primary to-secondary;
 }
 
 .gradient-background-light {
-    @apply bg-gradient-to-br from-white to-primary-30 via-white;
+  @apply bg-gradient-to-br from-white to-primary-30 via-white;
 }
 
 .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary via-secondary;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary via-secondary;
 }
 
 .gradient-text-light {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary-30 to-secondary;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary-30 to-secondary;
 }
 
 .inner-box-shadow {
-    box-shadow: inset 0 0 20px black;
+  box-shadow: inset 0 0 20px black;
 }
