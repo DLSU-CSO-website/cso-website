@@ -20,7 +20,7 @@ const Clusters = () => {
   const totalOrganizations =
     clusters?.reduce(
       (sum: number, cluster: ICluster) => sum + cluster.organizations.length,
-      0
+      0,
     ) || 0;
 
   const handleClusterChange = (cluster: ICluster) => {
@@ -38,54 +38,70 @@ const Clusters = () => {
 
   // Flatten all organizations from all clusters
   const allOrganizations = clusters?.flatMap(
-    (cluster: ICluster) => cluster.organizations
+    (cluster: ICluster) => cluster.organizations,
   );
-  
-// Filter organizations based on global search query
-const filteredOrganizations = allOrganizations?.filter((org: IOrganization) =>
-  org.name.toLowerCase().includes(globalSearchQuery.toLowerCase()) ||
-  org.abbreviatedName.toLowerCase().includes(globalSearchQuery.toLowerCase())
-);
+
+  // Filter organizations based on global search query
+  const filteredOrganizations = allOrganizations?.filter(
+    (org: IOrganization) =>
+      org.name.toLowerCase().includes(globalSearchQuery.toLowerCase()) ||
+      org.abbreviatedName
+        .toLowerCase()
+        .includes(globalSearchQuery.toLowerCase()),
+  );
 
   return (
-    <section
+    <main
       id="clusters-section"
-      className="section-layout p-10 flex justify-center gradient-background-light"
+      className="w-full min-h-screen p-10 flex flex-col gap-10 gradient-background-light"
     >
-      <div className="w-full flex items-center justify-center shadow-inner drop-shadow-lg">
+      {/* Global Search Input */}
+      <input
+        type="text"
+        placeholder="Search organizations..."
+        value={globalSearchQuery}
+        onChange={(e) => setGlobalSearchQuery(e.target.value)}
+        className="w-full p-2 rounded-md border border-gray-300"
+      />
+      <div className="w-full h-full md:h-screen flex flex-col md:flex-row items-center justify-center shadow-inner drop-shadow-lg">
         {/* Sidebar for Clusters */}
-        <div className="w-[25%] h-screen p-10 gradient-background flex flex-col justify-center gap-10">
-          <div className="w-full flex flex-col gap-2">
-            <h1 className="text-white font-bold">Our Organizations</h1>
-            <h2 className="text-secondary font-bold">
+        <div className="w-full h-full md:w-1/4 p-4 md:p-10 flex flex-col gap-4 gradient-background">
+          <div className="w-full flex flex-col gap-1 md:gap-2">
+            <h1 className="text-xs md:text-sm text-white font-bold">
+              Our Organizations
+            </h1>
+            <h2 className="text-xs md:text-sm text-secondary font-bold">
               {totalOrganizations} Organizations. 1 CSO
             </h2>
             <hr />
           </div>
-          {/* Global Search Input */}
-          <input
-            type="text"
-            placeholder="Search organizations..."
-            value={globalSearchQuery}
-            onChange={(e) => setGlobalSearchQuery(e.target.value)}
-            className="w-full p-2 rounded-md border border-gray-300"
-          />
-          <div className="w-full flex flex-col gap-6">
+
+          <div className="w-full flex md:flex-col gap-4 overflow-x-scroll no-scrollbar">
             {clusters?.map((cluster: ICluster, key: number) => (
-              <p
+              <div
                 key={key}
-                className="w-full p-2 text-white font-black text-lg rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
-                onClick={() => handleClusterChange(cluster)}
+                className="flex items-center justify-center bg-white/30 md:bg-transparent rounded-md"
               >
-                {cluster.fullName}
-              </p>
+                <p
+                  className="hidden md:block w-full p-2 text-white font-black text-lg rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
+                  onClick={() => handleClusterChange(cluster)}
+                >
+                  {cluster.fullName}
+                </p>
+                <p
+                  className="w-[110px] flex justify-center md:hidden p-2 text-white font-black text-sm text-center rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
+                  onClick={() => handleClusterChange(cluster)}
+                >
+                  {cluster.abbreviatedName}
+                </p>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Main Content for Organizations */}
-        <div className="w-[75%] h-screen bg-[#F5F5E9] flex flex-col items-center justify-center gap-6">
-          <div className="w-4/5 flex flex-wrap items-center justify-center gap-10">
+        <div className="w-full md:w-[75%] h-full p-10 bg-[#F5F5E9] flex flex-col items-center justify-center gap-6">
+          <div className="w-4/5 h-full overflow-y-scroll no-scrollbar flex flex-wrap items-center justify-center gap-10">
             {globalSearchQuery ? (
               filteredOrganizations?.length ? (
                 filteredOrganizations.map((org: IOrganization, key: number) => (
@@ -96,8 +112,8 @@ const filteredOrganizations = allOrganizations?.filter((org: IOrganization) =>
                   >
                     <Image
                       src={org.logo}
-                      width={200}
-                      height={200}
+                      width={100}
+                      height={100}
                       alt="Org Logo"
                     />
                   </Link>
@@ -123,21 +139,21 @@ const filteredOrganizations = allOrganizations?.filter((org: IOrganization) =>
                       >
                         <Image
                           src={org.logo}
-                          width={200}
-                          height={200}
+                          width={170}
+                          height={170}
                           alt="Org Logo"
                         />
                       </Link>
-                    )
+                    ),
                   )}
                 </div>
               </>
             ) : (
-              <div className="w-4/5 flex flex-col items-center">
+              <div className="w-4/5 h-full flex flex-col gap-6 items-center justify-center">
                 <Image
                   src="/cso-logo-green.png"
-                  width={400}
-                  height={400}
+                  width={100}
+                  height={100}
                   alt="CSO Logo"
                 />
                 <p className="uppercase font-bold bg-clip-text gradient-text text-3xl">
@@ -148,7 +164,7 @@ const filteredOrganizations = allOrganizations?.filter((org: IOrganization) =>
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 };
 

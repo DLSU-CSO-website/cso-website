@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 // [slug]/page.tsx (Server Component)
 import OrganizationSpecificClient from "@/components/OrganizationSpecificClient";
@@ -10,7 +10,7 @@ export default function OrganizationSpecificPage() {
   if (!params?.id) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center">
-        <h1 className="text-3xl font-bold">Invalid or Missing ID</h1>
+        <h1 className="text-3xl font-bold">Cannot find organization.</h1>
       </div>
     );
   }
