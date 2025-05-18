@@ -3,6 +3,7 @@
 import useFetchData from "@/hooks/useFetchData";
 import { ICluster } from "@/types/cluster.types";
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   const { data: clusters } = useFetchData("/api/organizations");
@@ -26,22 +27,46 @@ const Footer = () => {
       </div>
       <div className="w-full flex flex-col md:flex-row gap-6 md:gap-0">
         <div className="w-full flex flex-col items-start gap-2 md:gap-4">
-          <h1 className="font-black uppercase text-gray-800">Organizations</h1>
-          <div className="bg-clip-text text-transparent gradient-background font-black">
+          <p className="font-black uppercase text-gray-800">Organizations</p>
+          <div className="flex flex-col bg-clip-text text-transparent gradient-background font-black">
             {clusters?.map((cluster: ICluster, key: number) => (
-              <p className="" key={key}>
+              <Link
+                href="/organizations"
+                className="hover:text-primary transition-all duration-70"
+                key={key}
+              >
                 {cluster.abbreviatedName}
-              </p>
+              </Link>
             ))}
           </div>
         </div>
         <div className="w-full flex flex-col items-start gap-2 md:gap-4">
           <h1 className="font-black uppercase text-gray-800">The Council</h1>
-          <div className="bg-clip-text text-transparent gradient-background font-black">
-            <p>About Us</p>
-            <p>Pertinent Links</p>
-            <p>Structure</p>
-            <p>Annual Activities</p>
+          <div className="flex flex-col bg-clip-text text-transparent gradient-background font-black">
+            <Link
+              href="/about"
+              className="hover:text-primary transition-all duration-70"
+            >
+              About Us
+            </Link>
+            <Link
+              href="/about/#pertinent-links"
+              className="hover:text-primary transition-all duration-70"
+            >
+              Pertinent Links
+            </Link>
+            <Link
+              href="/about/#org-structure"
+              className="hover:text-primary transition-all duration-70"
+            >
+              Org Structure
+            </Link>
+            <Link
+              href="/annualactivities"
+              className="hover:text-primary transition-all duration-70"
+            >
+              Annual Activities
+            </Link>
           </div>
         </div>
       </div>

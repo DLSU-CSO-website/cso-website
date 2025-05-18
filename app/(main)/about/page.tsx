@@ -151,7 +151,10 @@ const About = () => {
           </div>
         ))}
       </section>
-      <section className="w-full min-h-screen flex flex-col items-center justify-center">
+      <section
+        id="pertinent-links"
+        className="w-full min-h-screen flex flex-col items-center justify-center"
+      >
         <div className="w-full p-1 gradient-background"></div>
         <div className="w-full min-h-screen p-24 gradient-background-light shadow-inner">
           <h1 className="w-full flex justify-center text-4xl text-shadow uppercase font-bold bg-black/40">
@@ -173,7 +176,10 @@ const About = () => {
         </div>
         <div className="w-full p-1 gradient-background"></div>
       </section>
-      <section className="w-full min-h-screen p-24 flex items-center justify-center">
+      <section
+        id="org-structure"
+        className="w-full min-h-screen p-24 flex items-center justify-center"
+      >
         <Image
           src="/org-structure-2.png"
           alt="Org Structure"

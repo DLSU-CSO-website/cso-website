@@ -124,30 +124,28 @@ const Clusters = () => {
                 </p>
               )
             ) : clusterState.cluster ? (
-              <>
-                <div
-                  className={`w-4/5 flex flex-wrap items-center justify-center gap-10 transition-opacity duration-300 ${
-                    clusterState.visible ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  {clusterState.cluster.organizations.map(
-                    (org: IOrganization, key: number) => (
-                      <Link
-                        key={key}
-                        href={`organizations/${org._id}`}
-                        className="cursor-pointer hover:scale-125 transition-all duration-75 ease-in-out"
-                      >
-                        <Image
-                          src={org.logo}
-                          width={170}
-                          height={170}
-                          alt="Org Logo"
-                        />
-                      </Link>
-                    ),
-                  )}
-                </div>
-              </>
+              <div
+                className={`w-4/5 flex flex-wrap items-center justify-center gap-10 transition-opacity duration-300 ${
+                  clusterState.visible ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                {clusterState.cluster.organizations.map(
+                  (org: IOrganization, key: number) => (
+                    <Link
+                      key={key}
+                      href={`organizations/${org._id}`}
+                      className="cursor-pointer hover:scale-125 transition-all duration-75 ease-in-out"
+                    >
+                      <Image
+                        src={org.logo}
+                        width={170}
+                        height={170}
+                        alt="Org Logo"
+                      />
+                    </Link>
+                  ),
+                )}
+              </div>
             ) : (
               <div className="w-4/5 h-full flex flex-col gap-6 items-center justify-center">
                 <Image
