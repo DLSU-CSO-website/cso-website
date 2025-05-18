@@ -26,8 +26,9 @@ const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Add state for search query
 
   // Filter announcements based on search query
-  const filteredAnnouncements = announcements?.filter((announcement: IAnnouncement) =>
-    announcement.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredAnnouncements = announcements?.filter(
+    (announcement: IAnnouncement) =>
+      announcement.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -50,21 +51,21 @@ const Homepage = () => {
         id="title-section"
         className="section-layout gradient-background-light relative"
       >
-        <div className="z-10 w-1/2 flex flex-col justify-center gap-6">
-          <p className="scroll-in-animation w-full text-xl uppercase font-bold gradient-text">
+        <div className="z-10 w-full md:w-1/2 p-10 md:p-2 flex flex-col justify-center gap-6">
+          <p className="scroll-in-animation w-full text-base md:text-xl uppercase font-bold gradient-text">
             Council of Student Organizations
           </p>
-          <h1 className="scroll-in-animation uppercase text-6xl font-bold text-shadow">
+          <h1 className="scroll-in-animation uppercase text-4xl md:text-6xl font-bold text-shadow">
             Always for the passion for service
           </h1>
           <hr className="scroll-in-animation w-full border-4 border-primary" />
-          <p className="scroll-in-animation w-full text-lg uppercase from-bg gradient-text">
+          <p className="scroll-in-animation w-full text-sm md:text-lg uppercase from-bg gradient-text">
             48 organizations. 9 executive teams. 1 cso
           </p>
         </div>
       </section>
-      <section className="w-full min-h-screen p-24 flex flex-col items-center justify-center gradient-background-light gap-16">
-      <h1 className="text-5xl uppercase gradient-text font-bold">
+      <section className="w-full min-h-screen p-10 flex flex-col items-center justify-center gradient-background-light gap-8 md:gap-16">
+        <h1 className="mt-16 text-3xl md:text-5xl uppercase gradient-text font-bold">
           announcements
         </h1>
         <input
@@ -72,20 +73,29 @@ const Homepage = () => {
           placeholder="Search announcements..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-1/2 p-4 border border-gray-300 rounded-lg"
+          className="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg"
         />
-        <div className="w-full flex flex-wrap gap-16 items-center justify-center">
-          {announcementsLoading ? (
-            <Loader />
-          ) : searchQuery ? (
-            filteredAnnouncements?.map((announcement: IAnnouncement, key: number) => (
-              <AnnouncementHomeCard key={key} announcement={announcement} />
-            ))
-          ) : (
-            announcements?.map((announcement: IAnnouncement, key: number) => (
-              <AnnouncementHomeCard key={key} announcement={announcement} />
-            ))
-          )}
+        <div className="w-full flex flex-col gap-4 items-center">
+          <div className="w-full md:w-[70%] flex justify-end">
+            <button className="gradient-text font-bold hover:scale-105 w-fit px-2 py-1 transition-all duration-75">
+              View all announcements
+            </button>
+          </div>
+          <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap md:gap-16 gap-4 items-center justify-between">
+            {announcementsLoading ? (
+              <Loader />
+            ) : searchQuery ? (
+              filteredAnnouncements?.map(
+                (announcement: IAnnouncement, key: number) => (
+                  <AnnouncementHomeCard key={key} announcement={announcement} />
+                ),
+              )
+            ) : (
+              announcements?.map((announcement: IAnnouncement, key: number) => (
+                <AnnouncementHomeCard key={key} announcement={announcement} />
+              ))
+            )}
+          </div>
         </div>
       </section>
     </main>
