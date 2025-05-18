@@ -53,7 +53,7 @@ const Clusters = () => {
   return (
     <main
       id="clusters-section"
-      className="w-full min-h-screen p-10 flex flex-col gap-10 justify-center gradient-background-light"
+      className="w-full min-h-screen p-10 flex flex-col gap-10 gradient-background-light"
     >
       {/* Global Search Input */}
       <input
@@ -63,9 +63,9 @@ const Clusters = () => {
         onChange={(e) => setGlobalSearchQuery(e.target.value)}
         className="w-full p-2 rounded-md border border-gray-300"
       />
-      <div className="w-full h-fit md:h-screen flex flex-col md:flex-row items-center justify-center shadow-inner drop-shadow-lg">
+      <div className="w-full h-full md:h-screen flex flex-col md:flex-row items-center justify-center shadow-inner drop-shadow-lg">
         {/* Sidebar for Clusters */}
-        <div className="w-full md:w-[25%] h-fit md:h-full p-10 gradient-background flex flex-col justify-center gap-2 md:gap-10">
+        <div className="w-full h-full md:w-1/4 p-4 md:p-10 flex flex-col gap-4 gradient-background">
           <div className="w-full flex flex-col gap-1 md:gap-2">
             <h1 className="text-xs md:text-sm text-white font-bold">
               Our Organizations
@@ -76,9 +76,12 @@ const Clusters = () => {
             <hr />
           </div>
 
-          <div className="w-full flex md:flex-col gap-6 overflow-x-scroll no-scrollbar">
+          <div className="w-full flex md:flex-col gap-4 overflow-x-scroll no-scrollbar">
             {clusters?.map((cluster: ICluster, key: number) => (
-              <div key={key} className="w-36 bg-green-200">
+              <div
+                key={key}
+                className="flex items-center justify-center bg-white/30 md:bg-transparent rounded-md"
+              >
                 <p
                   className="hidden md:block w-full p-2 text-white font-black text-lg rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
                   onClick={() => handleClusterChange(cluster)}
@@ -86,7 +89,7 @@ const Clusters = () => {
                   {cluster.fullName}
                 </p>
                 <p
-                  className="md:hidden w-full p-2 text-white font-black text-sm text-center rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
+                  className="w-[110px] flex justify-center md:hidden p-2 text-white font-black text-sm text-center rounded-md cursor-pointer hover:bg-white/40 transition-all duration-70 ease-in-out"
                   onClick={() => handleClusterChange(cluster)}
                 >
                   {cluster.abbreviatedName}
@@ -97,7 +100,7 @@ const Clusters = () => {
         </div>
 
         {/* Main Content for Organizations */}
-        <div className="w-[75%] h-full p-10 bg-[#F5F5E9] flex flex-col items-center justify-center gap-6">
+        <div className="w-full md:w-[75%] h-full p-10 bg-[#F5F5E9] flex flex-col items-center justify-center gap-6">
           <div className="w-4/5 h-full overflow-y-scroll no-scrollbar flex flex-wrap items-center justify-center gap-10">
             {globalSearchQuery ? (
               filteredOrganizations?.length ? (
