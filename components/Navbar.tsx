@@ -38,7 +38,7 @@ const Navbar = () => {
             <Link
               href={`${page.route}`}
               key={key}
-              className="text-secondary uppercase font-semibold cursor-pointer hover:text-white hover:bg-secondary/80 px-4 py-2 rounded-md transition-all duration-300"
+              className="text-secondary uppercase font-semibold cursor-pointer hover:text-white transition-all duration-300"
             >
               {page.pageName}
             </Link>
@@ -65,7 +65,7 @@ const Navbar = () => {
               <Link
                 href={page.route}
                 key={key}
-                className="w-full text-3xl md:text-base text-secondary uppercase font-semibold cursor-pointer hover:text-white hover:bg-secondary/80 px-4 py-2 rounded-md transition-all duration-300"
+                className="w-full text-3xl md:text-base text-secondary uppercase font-semibold cursor-pointer hover:text-white transition-all duration-300"
               >
                 {page.pageName}
               </Link>
