@@ -16,6 +16,10 @@ const Navbar = () => {
       route: "/about",
     },
     {
+      pageName: "Announcements",
+      route: "/announcements",
+    },
+    {
       pageName: "Annual Activities",
       route: "/annualactivities",
     },
@@ -59,13 +63,14 @@ const Navbar = () => {
         </div>
       </div>
       {showNavbar === true && (
-        <div className="z-20 fixed w-full min-h-screen p-10 bg-white/80 backdrop-blur flex justify-start">
-          <div className="w-full h-full flex flex-col gap-10">
+        <div className="fixed z-20 w-full min-h-screen p-24 bg-primary flex justify-center">
+          <div className="w-full flex flex-col gap-10">
             {pagesRoute.map((page, key) => (
               <Link
-                href={page.route}
                 key={key}
-                className="w-full text-3xl md:text-base text-secondary uppercase font-semibold cursor-pointer hover:text-white transition-all duration-300"
+                href={page.route}
+                className="w-full text-xl md:text-base text-white text-center uppercase font-semibold cursor-pointer hover:text-white transition-all duration-300"
+                onClick={() => setShowNavbar(!showNavbar)}
               >
                 {page.pageName}
               </Link>
