@@ -92,15 +92,15 @@ const About = () => {
             className="object-contain"
           />
         </div>
-        <div className="z-10 w-[60%] min-h-screen flex flex-col items-center justify-center gap-10">
-          <div className=" w-full flex flex-col gap-2 items-center">
-            <h1 className="text-shadow text-5xl bg-gradient-to-r from-primary to-secondary font-bold font-[Lexend] uppercase">
+        <div className="z-10 w-full md:w-[60%] min-h-screen flex flex-col items-center justify-center md:gap-10">
+          <div className="w-full flex flex-col gap-2 items-center p-4 md:p-0">
+            <h1 className="w-full text-shadow text-3xl md:text-5xl bg-gradient-to-r from-primary to-secondary font-bold font-[Lexend] uppercase">
               Council of Student Organizations
             </h1>
             <div className="w-full h-23 gradient-background p-1 drop-shadow-lg"></div>
           </div>
-          <div className="w-full flex flex-col gap-16">
-            <h3 className="text-[#AF9627] text-xl font-semibold">
+          <div className="w-full flex flex-col gap-16 p-4 md:p-0 text-justify">
+            <h3 className="text-[#AF9627] text-sm md:text-xl font-semibold">
               The{" "}
               <span className="text-[#866906]">
                 Council of Student Organizations (CSO)
@@ -121,17 +121,17 @@ const About = () => {
           </div>
         </div>
       </section>
-      <section className="w-full py-10 pr-10 flex flex-col gap-10">
+      <section className="w-full py-10 md:pr-10 flex flex-col gap-10">
         {branches.map((branch, index) => (
           <div
             key={index}
-            className="w-4/5 p-10 bg-gradient-to-r from-[#F6F6EA] to-green-900/60 inner-box-shadow flex justify-between"
+            className="w-full md:w-4/5 py-4 pr-4 md:p-10 bg-gradient-to-r from-[#F6F6EA] to-green-900/60 inner-box-shadow flex justify-between"
           >
             <div className="w-2/5">
-              <p className="text-9xl font-bold bg-gradient-to-r from-neutral-200 to-green-900 bg-clip-text text-transparent">
+              <p className="text-7xl md:text-9xl font-bold md:bg-gradient-to-r md:from-neutral-200 md:to-green-900 bg-gradient-to-r from-neutral-200/30 to-green-900/30 bg-clip-text text-transparent">
                 {branch.branch_abv}
               </p>
-              <p className="">{branch.branch_name}</p>
+              <p className="px-4 text-xs md:text-base">{branch.branch_name}</p>
             </div>
             <div className="w-3/5 flex flex-col justify-between">
               {branch.committees.map((comm, index) => (
@@ -139,10 +139,10 @@ const About = () => {
                   key={index}
                   className="w-full flex justify-between items-center"
                 >
-                  <p className="text-xl font-bold bg-gradient-to-r from-black to-[#666666]/30 bg-clip-text text-transparent">
+                  <p className="text-xs md:text-xl font-bold bg-gradient-to-r from-black to-[#666666]/30 bg-clip-text text-transparent">
                     {comm.committee_name}
                   </p>
-                  <p className="text-6xl font-bold bg-gradient-to-r from-[#CFD4C5] to-[#CFD4C5]/10 bg-clip-text text-transparent">
+                  <p className="text-xs md:text-6xl font-bold bg-gradient-to-r from-[#CFD4C5] to-[#CFD4C5]/10 bg-clip-text text-transparent">
                     {comm.committee_abv}
                   </p>
                 </div>
@@ -178,13 +178,22 @@ const About = () => {
       </section>
       <section
         id="org-structure"
-        className="w-full min-h-screen p-24 flex items-center justify-center"
+        className="w-full min-h-screen md:p-24 flex items-center justify-center"
       >
         <Image
           src="/org-structure-2.png"
           alt="Org Structure"
           width={1300}
           height={1300}
+          className="hidden md:flex"
+        />
+        <Image
+          src="/small-org-structure.png"
+          alt="Org Structure"
+          width={1300}
+          height={1300}
+          quality={100}
+          className="flex md:hidden"
         />
       </section>
     </main>
