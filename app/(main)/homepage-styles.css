@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.section-layout {
+    @apply w-full h-screen flex items-center justify-center;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+.scroll-in-animation {
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+}
+
+/* .text-shadow {
+    color: transparent;
+    text-shadow: 0px 0px 0px rgba(, 0, 0, 0.5);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+} */
+
+.text-shadow {
+    color: transparent;
+    background: linear-gradient(
+            90deg,
+            rgba(125, 109, 34, 1) 0%,
+            rgba(175, 150, 39, 1) 30.8241605758667%,
+            rgba(175, 150, 39, 1) 65.95957279205322%,
+            rgba(132, 114, 35, 1) 100%
+        ),
+        linear-gradient(to left, #d6ab39, #d6ab39);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+        inset 10px 10px 10px rgba(0, 0, 0, 0.15),
+        inset 10px 10px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
