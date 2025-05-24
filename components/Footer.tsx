@@ -9,8 +9,8 @@ const Footer = () => {
   const { data: clusters } = useFetchData("/api/organizations");
 
   return (
-    <div className="w-full h-fit bottom-0 p-10 flex flex-col md:flex-row gap-10 md:gap-0 items-start justify-evenly bg-white shadow-inner">
-      <div className="flex flex-col items-start gap-4">
+    <div className="w-full h-fit bottom-0 p-10 flex flex-col md:flex-row gap-10 items-start justify-evenly bg-white shadow-inner">
+      <div className="w-full md:w-1/2 flex flex-col items-start gap-4">
         <Image
           src="/cso-logo-green.png"
           width={80}
