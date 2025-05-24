@@ -6,8 +6,10 @@ export default function AnnouncementHomeCard({
 }: {
   announcement: IAnnouncement;
 }) {
+  console.log(typeof announcement.body);
+
   return (
-    <div className="w-full md:w-[300px] h-[400px] flex flex-col gap-6">
+    <div className="w-full md:w-[300px] h-[420px] flex flex-col gap-6">
       <div className="">
         <Image
           src={announcement.image}
@@ -17,11 +19,17 @@ export default function AnnouncementHomeCard({
           className="w-full h-full object-cover rounded-lg"
         />
       </div>
-      <div className="w-full md:w-[300px] h-[150px] p-4 inner-box-shadow bg-white rounded-lg flex flex-col gap-2">
+      <div className="w-full md:w-[300px] h-[200px] p-4 inner-box-shadow bg-white rounded-lg flex flex-col gap-2">
         <p className="uppercase text-xs text-black/40 font-semibold">Date</p>
-        <div className="flex flex-col">
-          <p className="gradient-text-light font-bold">{announcement.title}</p>
-          <p className="text-sm truncate text-black/40">{announcement.body}</p>
+        <div className="flex flex-col gap-4">
+          <p
+            className="text-lg gradient-text-light font-bold line-"
+            dangerouslySetInnerHTML={{ __html: announcement.title }}
+          ></p>
+          <p
+            className="text-base line-clamp-2 text-black/40"
+            dangerouslySetInnerHTML={{ __html: announcement.body }}
+          ></p>
         </div>
       </div>
     </div>

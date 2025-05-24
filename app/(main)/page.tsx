@@ -81,7 +81,7 @@ const Homepage = () => {
               View all announcements
             </button>
           </div>
-          <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap md:gap-16 gap-4 items-center justify-between">
+          <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap gap-16 items-center justify-between">
             {announcementsLoading ? (
               <Loader />
             ) : searchQuery ? (
