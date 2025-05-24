@@ -82,8 +82,8 @@ const About = () => {
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-start gradient-background-light">
-      <section className="w-full h-full flex items-center justify-center relative">
-        <div className="absolute w-full h-full inset-0 flex translate-x-16 translate-y-48 md:justify-center md:items-center">
+      <section className="w-full h-full grid grid-rows-1 grid-cols-1 place-items-center">
+        <div className="w-full place-items-center col-start-1 row-start-1 z-0">
           <Image
             src="/cso-logo-white.png"
             width={900}
@@ -92,7 +92,7 @@ const About = () => {
             className="object-contain"
           />
         </div>
-        <div className="z-10 p-4 md:p-10 w-full md:w-[60%] min-h-screen flex flex-col items-center justify-start md:gap-10">
+        <div className="col-start-1 row-start-1 z-10 p-4 md:p-10 w-full md:w-[60%] min-h-screen flex flex-col items-center justify-center md:gap-10">
           <div className="w-full flex flex-col gap-2 items-center p-4 md:p-0">
             <h1 className="w-full text-shadow text-3xl md:text-5xl bg-gradient-to-r from-primary to-secondary font-bold font-[Lexend] uppercase">
               Council of Student Organizations
