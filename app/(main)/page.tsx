@@ -23,13 +23,8 @@ const Homepage = () => {
     }
   };
 
-  const [searchQuery, setSearchQuery] = useState(""); // Add state for search query
-
-  // Filter announcements based on search query
-  const filteredAnnouncements = announcements?.filter(
-    (announcement: IAnnouncement) =>
-      announcement.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  // Top 5 Announcements
+  const recentAnnouncements = announcements?.slice(0, 5);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center">
@@ -68,32 +63,17 @@ const Homepage = () => {
         <h1 className="mt-16 text-3xl md:text-5xl uppercase gradient-text font-bold">
           announcements
         </h1>
-        <input
-          type="text"
-          placeholder="Search announcements..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg"
-        />
+
         <div className="w-full flex flex-col gap-4 items-center">
-          <div className="w-full md:w-[70%] flex justify-end">
-            <button className="gradient-text font-bold hover:scale-105 w-fit px-2 py-1 transition-all duration-75">
-              View all announcements
-            </button>
-          </div>
-          <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap gap-16 items-center justify-between">
+          <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap gap-16 items-center justify-center">
             {announcementsLoading ? (
               <Loader />
-            ) : searchQuery ? (
-              filteredAnnouncements?.map(
+            ) : (
+              recentAnnouncements?.map(
                 (announcement: IAnnouncement, key: number) => (
                   <AnnouncementHomeCard key={key} announcement={announcement} />
                 ),
               )
-            ) : (
-              announcements?.map((announcement: IAnnouncement, key: number) => (
-                <AnnouncementHomeCard key={key} announcement={announcement} />
-              ))
             )}
           </div>
         </div>
