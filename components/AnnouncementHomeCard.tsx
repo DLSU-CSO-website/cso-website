@@ -8,7 +8,7 @@ export default function AnnouncementHomeCard({
   announcement: IAnnouncement;
 }) {
   return (
-    <Link href={`announcements/${announcement._id}`}>
+    <Link href={`cso-announcements/${announcement._id}`}>
       <div className="w-full md:w-[300px] h-[420px] flex flex-col gap-6">
         <div className="">
           <Image

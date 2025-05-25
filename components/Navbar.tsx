@@ -17,7 +17,7 @@ const Navbar = () => {
     },
     {
       pageName: "Announcements",
-      route: "/announcements",
+      route: "/cso-announcements",
     },
     {
       pageName: "Annual Activities",
