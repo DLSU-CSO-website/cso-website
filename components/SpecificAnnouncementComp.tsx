@@ -44,21 +44,23 @@ const SpecificAnnouncementComp = ({ id }: { id: Types.ObjectId | string }) => {
           <span className="font-medium">Back to Announcements</span>
         </Link>
       </div>
-      <section className="w-full rounded-lg inner-box-shadow">
-        <Image
-          src={announcement?.image}
-          alt="announcement image"
-          width={500}
-          height={500}
-          className="rounded-2xl inner-box-shadow"
-        />
-      </section>
-      <section className="w-full h-[500px] p-10 border-2 border-gray-300 inner-box-shadow rounded-2xl overflow-y-scroll">
-        <h2 className="text-2xl font-bold mb-4">{announcement?.title}</h2>
-        <p
-          className="text-gray-600 text-justify"
-          dangerouslySetInnerHTML={{ __html: announcement?.body }}
-        ></p>
+      <section className="w-full flex flex-col md:flex-row gap-10">
+        <div className="w-full md:w-1/3 rounded-2xl inner-box-shadow">
+          <Image
+            src={announcement?.image}
+            alt="announcement image"
+            width={500}
+            height={500}
+            className="w-full h-full rounded-2xl inner-box-shadow object-cover"
+          />
+        </div>
+        <div className="w-full md:w-2/3 h-[500px] p-10 inner-box-shadow rounded-2xl overflow-y-scroll no-scrollbar">
+          <h2 className="text-2xl font-bold mb-4">{announcement?.title}</h2>
+          <p
+            className="text-gray-600 text-justify"
+            dangerouslySetInnerHTML={{ __html: announcement?.body }}
+          ></p>
+        </div>
       </section>
     </main>
   );
