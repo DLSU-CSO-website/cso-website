@@ -6,10 +6,6 @@ import useFetchData from "@/hooks/useFetchData";
 import { IAnnouncement } from "@/types/announcement.types";
 import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";
 import { Loader } from "@mantine/core";
-import { useState } from "react";
-// import { useState } from "react";
-// import { IOrganization } from "@/types/organization.types";
-// import { ICluster } from "@/types/cluster.types";
 
 const Homepage = () => {
   // data fetching
