@@ -74,9 +74,9 @@ export default function OrganizationSpecificClient({
     <>
       <section className="section-layout pt-32 pb-10 px-10 flex justify-center gradient-background-light relative">
         {org && (
-          <div className="w-full min-h-screen bg-white drop-shadow-md flex items-center justify-center relative">
+          <div className="w-full min-h-screen bg-white drop-shadow-md flex flex-col md:flex-row gap-10 md:gap-0 items-center justify-center relative">
             {/* Background Organization Logo */}
-            <div className="w-1/2 bg-white h-full flex justify-center items-center">
+            <div className="w-full md:w-1/2 p-8 md:p-0 bg-white h-auto md:h-full flex justify-center items-center">
               <Image
                 src={org.logo}
                 width={600}
@@ -86,13 +86,13 @@ export default function OrganizationSpecificClient({
               />
             </div>
             {/* Organization Info */}
-            <div className="w-1/2 min-h-screen px-24 py-10 flex flex-col items-center justify-evenly gradient-background relative">
+            <div className="w-full md:w-1/2 min-h-screen p-10 md:px-24 md:py-10 flex flex-col items-center justify-evenly gap-10 md:gap-0 gradient-background relative">
               <div className="w-full flex flex-col items-center gap-8">
                 <h1 className="text-3xl uppercase font-bold text-white text-center">
                   {org.name}
                 </h1>
-                <div className="w-full ">
-                  <p className="text-xl text-white font-bold text-justify">
+                <div className="w-full">
+                  <p className="text-xl text-white font-bold md:text-justify">
                     {org.orgDesc}
                   </p>
                 </div>
