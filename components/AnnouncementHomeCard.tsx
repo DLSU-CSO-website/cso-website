@@ -10,13 +10,13 @@ export default function AnnouncementHomeCard({
   return (
     <Link href={`cso-announcements/${announcement._id}`}>
       <div className="w-full md:w-[300px] h-[420px] flex flex-col gap-6">
-        <div className="">
+        <div className="w-[300px] h-[200px]">
           <Image
             src={announcement.image}
             height={300}
             width={300}
             alt="announcement image"
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover rounded-lg object-center"
           />
         </div>
         <div className="w-full md:w-[300px] h-[200px] p-4 inner-box-shadow bg-white rounded-lg flex flex-col gap-2">
