@@ -1,38 +1,39 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@mantine/core";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 import AdminNavLinks from "./AdminNavLinks";
 import Link from "next/link";
 
 interface ILinkTypes {
-  name: string
-  link: string
+  name: string;
+  link: string;
 }
 
 const LINKS: Array<ILinkTypes> = [
   {
     name: "Announcements",
-    link: "/secretadmin/dashboard/announcements"
+    link: "/secretadmin/dashboard/announcements",
   },
   {
     name: "Organizations",
-    link: "/secretadmin/dashboard/organizations"
+    link: "/secretadmin/dashboard/organizations",
   },
   {
     name: "Dashboard",
-    link: "/secretadmin/dashboard"
-  }
-]
+    link: "/secretadmin/dashboard",
+  },
+  { name: "Pertinent Links", link: "/secretadmin/dashboard/pertinentlinks" },
+];
 
 export default function AdminNav() {
-  const { dispatch } = useAuth()
-  const router = useRouter()
+  const { dispatch } = useAuth();
+  const router = useRouter();
   const logout = () => {
     if (dispatch) {
-      dispatch({ type: "LOGOUT" })
-      router.push("/secretadmin")
+      dispatch({ type: "LOGOUT" });
+      router.push("/secretadmin");
     }
-  }
+  };
 
   return (
     <>
@@ -41,14 +42,17 @@ export default function AdminNav() {
           <img src="/cso-logo-green.png" className="w-20 h-20 object-fill" />
         </Link>
         <div className="flex justify-center items-center">
-          {
-            LINKS.map((link, index) => (
-              <AdminNavLinks key={index} name={link.name} link={link.link} />
-            ))
-          }
+          {LINKS.map((link, index) => (
+            <AdminNavLinks key={index} name={link.name} link={link.link} />
+          ))}
         </div>
-        <Button className="bg-green-700 hover:bg-green-600 transition ease-in duration-200" onClick={logout}>Logout</Button>
+        <Button
+          className="bg-green-700 hover:bg-green-600 transition ease-in duration-200"
+          onClick={logout}
+        >
+          Logout
+        </Button>
       </div>
     </>
-  )
+  );
 }
