@@ -7,6 +7,7 @@ export default function AnnouncementHomeCard({
 }: {
   announcement: IAnnouncement;
 }) {
+  console.log(typeof announcement.updatedAt)
   return (
     <Link href={`cso-announcements/${announcement._id}`}>
       <div className="w-full md:w-[300px] h-[420px] flex flex-col gap-6">
@@ -20,7 +21,11 @@ export default function AnnouncementHomeCard({
           />
         </div>
         <div className="w-full md:w-[300px] h-[200px] p-4 inner-box-shadow bg-white rounded-lg flex flex-col gap-2">
-          <p className="uppercase text-xs text-black/40 font-semibold">Date</p>
+          <p className="uppercase text-xs text-black/40 font-semibold">{new Date(announcement.updatedAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}</p>
           <div className="flex flex-col gap-4">
             <div
               className="text-lg gradient-text-light font-bold line-"

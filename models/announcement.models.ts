@@ -7,6 +7,7 @@ interface AnnouncementModel extends Model<IAnnouncement> {
   deleteAnnouncement(id: string): Promise<IAnnouncement>
   viewAnnouncements(): Promise<IAnnouncement[]>
   viewAnnouncementById(id: string): Promise<IAnnouncement>
+  getRecentAnnouncements(): Promise<IAnnouncement[]>
 }
 
 const announcementSchema = new Schema<IAnnouncement, AnnouncementModel>({
@@ -42,19 +43,15 @@ announcementSchema.static(
   "editAnnouncement",
   async function editAnnouncement(title: string, body: string, id: string, image?: string) {
     const announcement = await this.findById(id)
-
     if (!announcement) {
       throw Error("This announcement does not exist")
     }
-
     announcement.body = body
     announcement.title = title
     if (image) {
       announcement.image = image
     }
-
     await announcement.save()
-
     return announcement
   }
 )
@@ -70,7 +67,7 @@ announcementSchema.static(
 announcementSchema.static(
   "viewAnnouncements",
   async function viewAnnouncements() {
-    const announcements = await this.find()
+    const announcements = await this.find().sort({ createdAt: -1 })
     return announcements
   }
 )
@@ -80,6 +77,16 @@ announcementSchema.static(
   async function viewAnnouncementById(id: string) {
     const announcement = await this.findById(id)
     return announcement
+  }
+)
+
+announcementSchema.static(
+  "getRecentAnnouncements",
+  async function getRecentAnnouncements() {
+    const announcements = await this.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+    return announcements
   }
 )
 

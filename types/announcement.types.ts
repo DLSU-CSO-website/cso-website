@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 export interface IAnnouncement {
   _id?: Types.ObjectId | string;
   title: string;
-  date: Date;
+  updatedAt: string;
   body: string;
   image: string;
 }

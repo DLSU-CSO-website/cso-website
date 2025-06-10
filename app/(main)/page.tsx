@@ -10,7 +10,7 @@ import { Loader } from "@mantine/core";
 const Homepage = () => {
   // data fetching
   const { data: announcements, loading: announcementsLoading } =
-    useFetchData("/api/announcements");
+    useFetchData("/api/announcements/five");
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
@@ -63,7 +63,7 @@ const Homepage = () => {
         <div className="w-full flex flex-col gap-4 items-center">
           <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap gap-16 items-center justify-center">
             {announcementsLoading ? (
-              <Loader />
+              <Loader color="green" type="bars" size={"xl"} />
             ) : (
               recentAnnouncements?.map(
                 (announcement: IAnnouncement, key: number) => (

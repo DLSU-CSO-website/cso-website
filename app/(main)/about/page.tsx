@@ -1,7 +1,10 @@
+import { getPertinentLinks } from "@/libs/contentful/services/pertinent.services";
 import "./about-styles.css";
 import Image from "next/image";
 
-const About = () => {
+const About = async () => {
+  const pertinent = await getPertinentLinks()
+  console.log(pertinent)
   const branches = [
     {
       branch_name: "Externals",
@@ -58,28 +61,43 @@ const About = () => {
       ],
     },
   ];
-
-  const pertinentLinks = [
-    {
-      header: "PNP",
-      links: [
-        {
-          name: "FAQs",
-          url: "bit.ly.PNPFAQs",
-        },
-      ],
-    },
-    {
-      header: "MNL",
-      links: [
-        {
-          name: "MOAs",
-          url: "bit.ly.MOATemplates",
-        },
-      ],
-    },
-  ];
-
+  const categories = pertinent?.map((pertinentLink) => pertinentLink.category)
+  const uniqueCategories = [...new Set(categories)]
+  const pertinentLinks = uniqueCategories.map((category) => {
+    const links = pertinent?.map((link) => {
+      if (link.category === category) {
+        return {
+          name: link.title,
+          url: link.link
+        }
+      }
+    }).filter(Boolean)
+    return {
+      header: category,
+      links,
+    }
+  })
+  // const pertinentLinks = [
+  //   {
+  //     header: "PNP",
+  //     links: [
+  //       {
+  //         name: "FAQs",
+  //         url: "bit.ly.PNPFAQs",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     header: "MNL",
+  //     links: [
+  //       {
+  //         name: "MOAs",
+  //         url: "bit.ly.MOATemplates",
+  //       },
+  //     ],
+  //   },
+  // ];
+  //
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-start gradient-background-light">
       <section className="w-full h-full grid grid-rows-1 grid-cols-1 place-items-center">
@@ -164,10 +182,10 @@ const About = () => {
             {pertinentLinks.map((link, key: number) => (
               <div key={key}>
                 <p>{link.header}</p>
-                {link.links.map((l, key: number) => (
+                {link.links?.map((l, key: number) => (
                   <div key={key}>
-                    <p>{l.name}</p>
-                    <p>{l.url}</p>
+                    <p>{l?.name}</p>
+                    <p>{l?.url}</p>
                   </div>
                 ))}
               </div>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import useFetchData from "@/hooks/useFetchData";
 import { ICluster } from "@/types/cluster.types";
 import { IOrganization } from "@/types/organization.types";
+import { Loader } from "@mantine/core";
 
 const Clusters = () => {
   const [loading, setLoading] = useState(true); // Loading state
@@ -60,7 +61,7 @@ const Clusters = () => {
       {/* Show loading spinner or message */}
       {loading ? (
         <div className="flex items-center justify-center h-screen">
-          <p className="text-xl font-bold text-gray-500">Loading...</p>
+          <Loader color="green" type="bars" size={"xl"} />
         </div>
       ) : (
         <>
@@ -136,9 +137,8 @@ const Clusters = () => {
                   )
                 ) : clusterState.cluster ? (
                   <div
-                    className={`w-4/5 flex flex-wrap items-center justify-center gap-10 transition-opacity duration-300 ${
-                      clusterState.visible ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`w-4/5 flex flex-wrap items-center justify-center gap-10 transition-opacity duration-300 ${clusterState.visible ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {clusterState.cluster.organizations.map(
                       (org: IOrganization, key: number) => (

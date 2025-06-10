@@ -32,7 +32,9 @@ const Announcements = () => {
 
         <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap gap-16 items-center justify-between">
           {announcementsLoading ? (
-            <Loader />
+            <div className="h-full w-full flex justify-center items-center">
+              <Loader color="green" type="bars" size={"xl"} />
+            </div>
           ) : searchQuery ? (
             filteredAnnouncements?.map(
               (announcement: IAnnouncement, key: number) => (
