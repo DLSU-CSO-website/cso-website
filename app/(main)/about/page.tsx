@@ -185,7 +185,7 @@ const About = async () => {
                 {link.links?.map((l, key: number) => (
                   <div key={key}>
                     <p>{l?.name}</p>
-                    <p>{l?.url}</p>
+                    <a href={l?.url}>{l?.url}</a>
                   </div>
                 ))}
               </div>
