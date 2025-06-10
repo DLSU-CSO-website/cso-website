@@ -9,7 +9,7 @@ import { IconCheck, IconFilePlus } from "@tabler/icons-react";
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function CreateAnnouncementPage() {
   const { user, loading: userLoading } = useAuth()
@@ -24,7 +24,9 @@ export default function CreateAnnouncementPage() {
   const [image, setImage] = useState<File | null>()
   const [imageName, setImageName] = useState<string>("")
   const [title, setTitle] = useState<string>("")
-  const [notifId, setNotifId] = useState<string>("")
+
+  // Use ref instead of state for notification ID to prevent infinite loops
+  const notifIdRef = useRef<string>("")
 
   const { upload, error: uploadError, loading: uploadLoading, success: uploadSuccess } = useAnnouncementUpload()
 
@@ -45,22 +47,23 @@ export default function CreateAnnouncementPage() {
     }
   }, [image])
 
+  // Fixed useEffect using ref to prevent infinite loops
   useEffect(() => {
     if (uploadLoading) {
-      setNotifId(notifications.show({
+      notifIdRef.current = notifications.show({
         loading: true,
         title: "Uploading your Announcement right now! ",
         message: "Just sit down and chill we're doing cool things in the background!",
         autoClose: false,
         withCloseButton: false,
         position: "bottom-center"
-      }))
+      })
     }
 
-    if (!uploadLoading) {
+    if (!uploadLoading && notifIdRef.current) {
       if (uploadError) {
         notifications.update({
-          id: notifId,
+          id: notifIdRef.current,
           title: "Oh no something went wrong!",
           message: uploadError,
           autoClose: 2000,
@@ -71,7 +74,7 @@ export default function CreateAnnouncementPage() {
       if (uploadSuccess) {
         router.push("/secretadmin/dashboard/announcements");
         notifications.update({
-          id: notifId,
+          id: notifIdRef.current,
           title: "Upload Successful!",
           message: "Your awesome announcement is now up in the web!",
           autoClose: 2000,
@@ -81,7 +84,7 @@ export default function CreateAnnouncementPage() {
         })
       }
     }
-  }, [uploadError, uploadSuccess, uploadLoading, notifId, router])
+  }, [uploadError, uploadSuccess, uploadLoading, router])
 
   const uploadAnnouncement = async () => {
     const formDataUpload = new FormData()
