@@ -44,7 +44,6 @@ export default function ClusterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log(JSON.stringify(formValues));
       const response = await fetch('/api/admin/organizations/create', {
         method: 'POST',
         headers: {

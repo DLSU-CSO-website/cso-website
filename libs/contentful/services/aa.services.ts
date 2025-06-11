@@ -13,7 +13,6 @@ export const getAnnualActivities = async () => {
       return rawFields as IAnnualActivitiesFields
     })
 
-    console.log(activities[0].logo?.fields.file?.url)
 
     return activities
   } catch (err) {

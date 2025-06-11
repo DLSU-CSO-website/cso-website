@@ -7,7 +7,6 @@ export default function AnnouncementHomeCard({
 }: {
   announcement: IAnnouncement;
 }) {
-  console.log(typeof announcement.updatedAt)
   return (
     <Link href={`cso-announcements/${announcement._id}`}>
       <div className="w-full md:w-[300px] h-[420px] flex flex-col gap-6">

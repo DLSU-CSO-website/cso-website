@@ -24,15 +24,15 @@ export const POST = async (request: Request) => {
     const logo = data.get('logo');
 
     // Console log statements for testing
-    console.log("Cluster:", cluster);
-    console.log("Organization ID:", organizationId);
-    console.log("Abbreviated Name:", abbreviatedName);
-    console.log("Name:", name);
-    console.log("Description:", orgDesc);
-    console.log("Programs:", programs);
-    console.log("Facebook:", facebook);
-    console.log("Instagram:", instagram);
-    console.log("Logo:", logo);
+    // console.log("Cluster:", cluster);
+    // console.log("Organization ID:", organizationId);
+    // console.log("Abbreviated Name:", abbreviatedName);
+    // console.log("Name:", name);
+    // console.log("Description:", orgDesc);
+    // console.log("Programs:", programs);
+    // console.log("Facebook:", facebook);
+    // console.log("Instagram:", instagram);
+    // console.log("Logo:", logo);
 
     if (typeof cluster !== 'string' || typeof organizationId !== 'string') {
       return NextResponse.json({ message: 'Invalid cluster or organization ID parameter' }, { status: 400 });

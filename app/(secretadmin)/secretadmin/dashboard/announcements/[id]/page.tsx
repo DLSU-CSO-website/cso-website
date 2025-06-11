@@ -149,7 +149,6 @@ const ViewAnnouncement = () => {
           editor.commands.setContent(data.body)
         }
       }
-      console.log(data)
       // if (!data) {
       //   notifications.show({
       //     title: "No announcement as such exists!",

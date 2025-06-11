@@ -4,7 +4,6 @@ import Image from "next/image";
 
 const About = async () => {
   const pertinent = await getPertinentLinks()
-  console.log(pertinent)
   const branches = [
     {
       branch_name: "Externals",

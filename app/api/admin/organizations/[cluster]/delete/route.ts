@@ -12,8 +12,6 @@ export const POST = async (request: Request) => {
     checkAdmin(request);
 
     // Console log statements for testing
-    console.log("Cluster:", cluster);
-    console.log("Organization ID:", organizationId);
 
     if (typeof cluster !== 'string' || typeof organizationId !== 'string') {
       return NextResponse.json({ message: 'Invalid cluster or organization ID parameter' }, { status: 400 });
