@@ -36,3 +36,11 @@
 .inner-box-shadow {
   box-shadow: inset 0 0 20px black;
 }
+
+.text-shadow {
+  color: transparent;
+  text-shadow: 2px 2px 2px rgba(255, 255, 255, 0.15);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}

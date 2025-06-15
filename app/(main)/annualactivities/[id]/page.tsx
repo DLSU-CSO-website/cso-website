@@ -60,33 +60,41 @@ export default async function SpecificAnnualActivity({
     : null;
 
   return (
-    <main className="w-full h-screen p-8 md:p-32 flex flex-col md:flex-row items-start justify-between md:justify-start gap-6 gradient-background-light">
-      <div className="flex-1 flex flex-col gap-6 md:w-1/2 md:h-full md:justify-center z-10">
-        <div className="w-full flex flex-col gap-3">
-          <h1 className="text-3xl md:text-4xl font-bold uppercase gradient-text">
-            {title}
-          </h1>
-          <hr className="w-full md:w-2/4 border-2 border-primary" />
+    <main className="w-full min-h-screen p-4 md:p-8 gradient-background-light justify-center">
+      <div className="w-full min-h-screen shadow-inner drop-shadow bg-white flex items-start justify-center">
+        <div className="w-full h-full items-center flex flex-col">
+          <div className="w-full px-8 pt-8 pb-4 md:px-24 md:pt-24 md:pb-16 flex flex-col gap-4 items-center justify-center">
+            <h1 className="text-2xl md:text-5xl font-bold uppercase text-shadow gradient-text-light">
+              {title}
+            </h1>
+            <div className="w-full h-23 gradient-background p-1 drop-shadow-lg"></div>
+          </div>
+          <div className="w-full h-auto px-8 md:px-24 flex flex-col md:flex-row items-center overflow-hidden">
+            <div className="w-full md:w-1/2 py-8 md:p-24 flex items-start justify-center">
+              <p className="text-lg md:text-2xl text-primary font-bold">
+                {description}
+              </p>
+            </div>
+            <div className="w-full md:w-1/2 h-full">
+              <Image
+                src={logoUrl}
+                alt={title}
+                width={900}
+                height={500}
+                className="w-full h-full object-contain overflow-y-hidden"
+              />
+            </div>
+          </div>
+          <div className="w-full flex px-8 py-24 md:p-24 justify-center md:justify-start">
+            <Link
+              href="/annualactivities"
+              className="w-fit text-primary font-bold flex items-center gap-4 hover:text-secondary-30 hover:scale-105 transition-all duration-100"
+            >
+              <LuChevronsLeft />
+              <p>Back to Annual Activities</p>
+            </Link>
+          </div>
         </div>
-        <p className="text-lg max-w-2xl">{description}</p>
-      </div>
-      {logoUrl && (
-        <Image
-          width={600}
-          height={600}
-          src={logoUrl}
-          alt={title}
-          className="md:absolute md:bottom-0 md:right-0 max-w-full h-auto z-0"
-        />
-      )}
-      <div className="w-full md:w-1/4 flex justify-center mb-10 z-20">
-        <Link
-          href="/annualactivities"
-          className="flex items-center gap-2 text-black hover:text-primary transition-colors"
-        >
-          <LuChevronsLeft className="text-2xl" />
-          <span className="font-medium">Back to Annual Activities</span>
-        </Link>
       </div>
     </main>
   );
