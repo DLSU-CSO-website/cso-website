@@ -57,7 +57,7 @@ export default async function SpecificAnnualActivity({
   const { title, description, logo } = activity;
   const logoUrl = logo?.fields?.file?.url
     ? `https:${logo.fields.file.url}`
-    : null;
+    : "";
 
   return (
     <main className="w-full min-h-screen p-4 md:p-8 gradient-background-light justify-center">
