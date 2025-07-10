@@ -1,16 +1,16 @@
 "use client";
-
 import Image from "next/image";
 import "./homepage-styles.css";
 import useFetchData from "@/hooks/useFetchData";
 import { IAnnouncement } from "@/types/announcement.types";
-import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";
+import AnnouncementSlider from "@/components/AnnouncementSlider";
 import { Loader } from "@mantine/core";
 
 const Homepage = () => {
   // data fetching
-  const { data: announcements, loading: announcementsLoading } =
-    useFetchData("/api/announcements/five");
+  const { data: announcements, loading: announcementsLoading } = useFetchData(
+    "/api/announcements/five",
+  );
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
@@ -20,7 +20,7 @@ const Homepage = () => {
   };
 
   // Top 5 Announcements
-  const recentAnnouncements = announcements?.slice(0, 5);
+  const recentAnnouncements = announcements?.slice(0, 3);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center">
@@ -38,6 +38,7 @@ const Homepage = () => {
           <p className="text-xl font-semibold uppercase">Explore cso</p>
         </button>
       </section>
+
       <section
         id="title-section"
         className="section-layout gradient-background-light relative"
@@ -50,25 +51,27 @@ const Homepage = () => {
             Always for the passion for service
           </h1>
           <hr className="scroll-in-animation w-full border-4 border-primary" />
-          <p className="scroll-in-animation w-full text-sm md:text-lg uppercase from-bg gradient-text">
+          <p className="scroll-in-animation w-full text-sm md:text-lg uppercase from-bg gradient-text font-lexend font-bold tracking-wider text-shadow">
             48 organizations. 9 executive teams. 1 cso
           </p>
         </div>
       </section>
+
       <section className="w-full min-h-screen p-10 flex flex-col items-center justify-center gradient-background-light gap-8 md:gap-16">
         <h1 className="mt-16 text-3xl md:text-5xl uppercase gradient-text font-bold">
           announcements
         </h1>
 
         <div className="w-full flex flex-col gap-4 items-center">
-          <div className="w-full md:w-[70%] flex flex-col md:flex-row md:flex-wrap gap-16 items-center justify-center">
+          <div className="w-full md:w-[70%] flex flex-col items-center justify-center">
             {announcementsLoading ? (
               <Loader color="green" type="bars" size={"xl"} />
             ) : (
-              recentAnnouncements?.map(
-                (announcement: IAnnouncement, key: number) => (
-                  <AnnouncementHomeCard key={key} announcement={announcement} />
-                ),
+              recentAnnouncements && (
+                <AnnouncementSlider
+                  announcements={recentAnnouncements}
+                  itemsPerView={1} // Show 1 item at a time on mobile, you can adjust this
+                />
               )
             )}
           </div>
