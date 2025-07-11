@@ -2,9 +2,8 @@
 import Image from "next/image";
 import "./homepage-styles.css";
 import useFetchData from "@/hooks/useFetchData";
-import { IAnnouncement } from "@/types/announcement.types";
-import AnnouncementSlider from "@/components/AnnouncementSlider";
 import { Loader } from "@mantine/core";
+import AnnouncementHomeCarousel from "@/components/AnnouncementHomeCarousel";
 
 const Homepage = () => {
   // data fetching
@@ -67,12 +66,7 @@ const Homepage = () => {
             {announcementsLoading ? (
               <Loader color="green" type="bars" size={"xl"} />
             ) : (
-              recentAnnouncements && (
-                <AnnouncementSlider
-                  announcements={recentAnnouncements}
-                  itemsPerView={1} // Show 1 item at a time on mobile, you can adjust this
-                />
-              )
+              <AnnouncementHomeCarousel announcements={announcements} />
             )}
           </div>
         </div>

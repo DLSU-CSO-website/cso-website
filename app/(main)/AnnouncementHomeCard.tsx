@@ -12,8 +12,36 @@ export default function AnnouncementHomeCard({
       href={`cso-announcements/${announcement._id}`}
       className="w-full flex "
     >
-      
-      <div className="w-full h-full flex gap-6">
+      <div className="w-1/2 h-full bg-green-300">
+        {/*for the image*/}
+        <Image
+          src={announcement.image}
+          height={500}
+          width={500}
+          alt="Announcement Image"
+        />
+      </div>
+      <div>
+        {/*for the content*/}
+        <p>
+          {new Date(announcement.updatedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </p>
+        <div className="flex flex-col gap-4">
+          <div
+            className="text-lg gradient-text-light font-bold line-"
+            dangerouslySetInnerHTML={{ __html: announcement.title }}
+          ></div>
+          <div
+            className="text-base line-clamp-2 text-black/40"
+            dangerouslySetInnerHTML={{ __html: announcement.body }}
+          ></div>
+        </div>
+      </div>
+      {/* <div className="w-full h-full flex gap-6">
         <div className="w-full h-full">
           <Image
             src={announcement.image}
@@ -42,7 +70,7 @@ export default function AnnouncementHomeCard({
             ></div>
           </div>
         </div>
-      </div>
+      </div> */}
     </Link>
   );
 }

@@ -51,7 +51,7 @@ const AnnouncementSlider = ({
         </button>
 
         {/* Slider Content */}
-        <div className="flex-1 mx-4 overflow-hidden">
+        <div className="flex-1 mx-4 overflow-hidden bg-green-200">
           <div className="flex gap-4 justify-center items-center min-h-[400px] transition-opacity duration-300">
             {getCurrentItems().map(
               (announcement: IAnnouncement, itemIndex: number) => (
