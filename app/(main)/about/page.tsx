@@ -3,7 +3,7 @@ import "./about-styles.css";
 import Image from "next/image";
 
 const About = async () => {
-  const pertinent = await getPertinentLinks()
+  const pertinent = await getPertinentLinks();
   const branches = [
     {
       branch_name: "Externals",
@@ -60,22 +60,24 @@ const About = async () => {
       ],
     },
   ];
-  const categories = pertinent?.map((pertinentLink) => pertinentLink.category)
-  const uniqueCategories = [...new Set(categories)]
+  const categories = pertinent?.map((pertinentLink) => pertinentLink.category);
+  const uniqueCategories = [...new Set(categories)];
   const pertinentLinks = uniqueCategories.map((category) => {
-    const links = pertinent?.map((link) => {
-      if (link.category === category) {
-        return {
-          name: link.title,
-          url: link.link
+    const links = pertinent
+      ?.map((link) => {
+        if (link.category === category) {
+          return {
+            name: link.title,
+            url: link.link,
+          };
         }
-      }
-    }).filter(Boolean)
+      })
+      .filter(Boolean);
     return {
       header: category,
       links,
-    }
-  })
+    };
+  });
   // const pertinentLinks = [
   //   {
   //     header: "PNP",
@@ -99,40 +101,45 @@ const About = async () => {
   //
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-start gradient-background-light">
-      <section className="w-full h-full grid grid-rows-1 grid-cols-1 place-items-center">
-        <div className="w-full place-items-center col-start-1 row-start-1 z-0">
+      <section className="w-full h-screen md:p-16 grid grid-rows-1 grid-cols-1 place-items-start overflow-hidden">
+        <div className="w-full col-start-1 row-start-1 z-0 flex justify-end items-end pb-0 pr-0">
           <Image
             src="/cso-logo-white.png"
-            width={900}
-            height={900}
+            width={1300}
+            height={1300}
             alt="CSO Logo"
-            className="object-contain"
+            className="object-contain translate-x-40 translate-y-20"
           />
         </div>
-        <div className="col-start-1 row-start-1 z-10 p-4 md:p-10 w-full md:w-[60%] min-h-screen flex flex-col items-center justify-center md:gap-10">
-          <div className="w-full flex flex-col gap-2 items-center p-4 md:p-0">
-            <h1 className="w-full text-shadow text-3xl md:text-5xl bg-gradient-to-r from-primary to-secondary font-bold font-[Lexend] uppercase">
+        <div className="col-start-1 row-start-1 z-10 p-4 md:p-20 w-full h-screen flex flex-col justify-start items-start gap-16">
+          <div className="w-full flex flex-col gap-4">
+            <h1 className="text-4xl md:text-5xl font-bold font-[Lexend] uppercase gradient-text tracking-wider text-center">
               Council of Student Organizations
             </h1>
             <div className="w-full h-23 gradient-background p-1 drop-shadow-lg"></div>
           </div>
-          <div className="w-full flex flex-col gap-16 p-4 md:p-0 text-justify">
-            <h3 className="text-[#AF9627] text-sm md:text-xl font-semibold">
-              The{" "}
-              <span className="text-[#866906]">
-                Council of Student Organizations (CSO)
-              </span>{" "}
-              of De La Salle University is the union of the professional,
-              special interest, and socio-civic organizations in the university.
-              Since 1974, the Council has continuously delivered quality student
-              service and produced outstanding student leaders devoted to
-              serving the Lasallian community. The council pushes forward with
-              its various annual activities to promote Lasallian spirit and
-              encourage organizational participation.
-            </h3>
+          <div className="w-full max-w-2xl flex flex-col gap-8 text-secondary-30">
+            <div className="w-full text-lg md:text-2xl leading-relaxed">
+              <p className="mb-6">
+                The{" "}
+                <span className="font-semibold">
+                  Council of Student Organizations (CSO)
+                </span>{" "}
+                of De La Salle University is the union of the professional,
+                special interest, and socio-civic organizations in the
+                university.
+              </p>
+              <p>
+                Since 1974, the Council has continuously delivered quality
+                student service and produced outstanding student leaders devoted
+                to serving the Lasallian community. The council pushes forward
+                with its various annual activities to promote Lasallian spirit
+                and encourage organizational participation.
+              </p>
+            </div>
             <div className="text-shadow bg-gradient-to-r from-secondary to-neutral-900 font-bold font-[Lexend] uppercase">
-              <p>48 Organizations</p>
-              <p>9 Executive Teams</p>
+              <p>48 ORGANIZATIONS</p>
+              <p>9 EXECUTIVE TEAMS</p>
               <p>1 CSO</p>
             </div>
           </div>
@@ -173,20 +180,42 @@ const About = async () => {
         className="w-full min-h-screen flex flex-col items-center justify-center"
       >
         <div className="w-full p-1 gradient-background"></div>
-        <div className="w-full min-h-screen p-24 gradient-background-light shadow-inner">
-          <h1 className="w-full flex justify-center text-4xl text-shadow uppercase font-bold bg-black/40">
+        <div className="w-full min-h-screen p-8 md:p-24 gradient-background-light shadow-inner flex flex-col items-start">
+          <h1 className="text-4xl md:text-5xl font-bold uppercase text-shadow mb-16 tracking-widest bg-black/40">
             Pertinent Links
           </h1>
-          <div className="w-full flex flex-col ">
-            {pertinentLinks.map((link, key: number) => (
-              <div key={key}>
-                <p>{link.header}</p>
-                {link.links?.map((l, key: number) => (
-                  <div key={key}>
-                    <p>{l?.name}</p>
-                    <a href={l?.url}>{l?.url}</a>
-                  </div>
-                ))}
+
+          <div className="w-full flex flex-col gap-8">
+            {pertinentLinks.map((link, key) => (
+              <div key={key} className="w-1/2">
+                <div className="flex items-center gap-4 mb-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-600 uppercase">
+                    {link.header}
+                  </h2>
+                  <div className="flex-1 h-px bg-gray-600"></div>
+                </div>
+
+                <div className="w-full flex flex-col gap-2">
+                  {link.links?.map((l, linkKey) => (
+                    <div
+                      key={linkKey}
+                      className="w-full flex items-center justify-between gap-4"
+                    >
+                      <p className="w-[200px] px-6 py-3 border border-gray-300 inner-box-shadow-small">
+                        {l?.name}
+                      </p>
+
+                      <a
+                        href={l?.url}
+                        className="grow px-6 py-3 border border-gray-300 inner-box-shadow-small text-gray-600/80 hover:text-gray-600 transition-colors underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {l?.url}
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

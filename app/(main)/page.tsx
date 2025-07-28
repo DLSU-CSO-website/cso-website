@@ -19,7 +19,7 @@ const Homepage = () => {
   };
 
   // Top 5 Announcements
-  const recentAnnouncements = announcements?.slice(0, 3);
+  // const recentAnnouncements = announcements?.slice(0, 3);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center">
@@ -61,7 +61,11 @@ const Homepage = () => {
           announcements
         </h1>
 
-        <div className="w-full flex flex-col gap-4 items-center">
+        {/* TODO: implement announcement carousel.
+              - needs to be 3 announcement previews
+              - should be a slider (1 announcement preview at a time)
+          */}
+        {/* <div className="w-full flex flex-col gap-4 items-center">
           <div className="w-full md:w-[70%] flex flex-col items-center justify-center">
             {announcementsLoading ? (
               <Loader color="green" type="bars" size={"xl"} />
@@ -69,7 +73,7 @@ const Homepage = () => {
               <AnnouncementHomeCarousel announcements={announcements} />
             )}
           </div>
-        </div>
+        </div> */}
       </section>
     </main>
   );
