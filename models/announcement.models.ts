@@ -85,7 +85,7 @@ announcementSchema.static(
   async function getRecentAnnouncements() {
     const announcements = await this.find()
       .sort({ createdAt: -1 })
-      .limit(5)
+      .limit(3)
     return announcements
   }
 )

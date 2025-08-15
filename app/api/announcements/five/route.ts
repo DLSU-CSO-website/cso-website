@@ -6,6 +6,7 @@ export const GET = async () => {
   try {
     connectDatabase();
     const announcements = await Announcement.getRecentAnnouncements();
+    console.log(announcements)
     return NextResponse.json(
       { data: announcements, message: "Announcements successfully fetched" },
       { status: 200 },

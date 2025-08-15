@@ -4,12 +4,23 @@ import "./homepage-styles.css";
 import useFetchData from "@/hooks/useFetchData";
 import { Loader } from "@mantine/core";
 import AnnouncementHomeCarousel from "@/components/AnnouncementHomeCarousel";
+import { useEffect, useState } from "react";
+import { IAnnouncement } from "@/types/announcement.types";
 
 const Homepage = () => {
   // data fetching
-  const { data: announcements, loading: announcementsLoading } = useFetchData(
+  const { loading: announcementsLoading, data: announcements } = useFetchData(
     "/api/announcements/five",
   );
+  const [recentAnnouncements, setRecentAnnouncements] = useState<IAnnouncement[] | []>([])
+
+  useEffect(() => {
+    console.log(announcementsLoading)
+    console.log(announcements)
+    if (!announcementsLoading) {
+      setRecentAnnouncements(announcements)
+    }
+  }, [announcements, announcementsLoading])
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
@@ -65,15 +76,15 @@ const Homepage = () => {
               - needs to be 3 announcement previews
               - should be a slider (1 announcement preview at a time)
           */}
-        {/* <div className="w-full flex flex-col gap-4 items-center">
+        <div className="w-full flex flex-col gap-4 items-center">
           <div className="w-full md:w-[70%] flex flex-col items-center justify-center">
             {announcementsLoading ? (
               <Loader color="green" type="bars" size={"xl"} />
             ) : (
-              <AnnouncementHomeCarousel announcements={announcements} />
+              <AnnouncementHomeCarousel announcements={recentAnnouncements} />
             )}
           </div>
-        </div> */}
+        </div>
       </section>
     </main>
   );
