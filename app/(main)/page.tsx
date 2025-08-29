@@ -6,21 +6,24 @@ import { Loader } from "@mantine/core";
 import AnnouncementHomeCarousel from "@/components/AnnouncementHomeCarousel";
 import { useEffect, useState } from "react";
 import { IAnnouncement } from "@/types/announcement.types";
+import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";
 
 const Homepage = () => {
   // data fetching
   const { loading: announcementsLoading, data: announcements } = useFetchData(
     "/api/announcements/five",
   );
-  const [recentAnnouncements, setRecentAnnouncements] = useState<IAnnouncement[] | []>([])
+  const [recentAnnouncements, setRecentAnnouncements] = useState<
+    IAnnouncement[] | []
+  >([]);
 
   useEffect(() => {
-    console.log(announcementsLoading)
-    console.log(announcements)
+    console.log(announcementsLoading);
+    console.log(announcements);
     if (!announcementsLoading) {
-      setRecentAnnouncements(announcements)
+      setRecentAnnouncements(announcements);
     }
-  }, [announcements, announcementsLoading])
+  }, [announcements, announcementsLoading]);
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
@@ -81,7 +84,14 @@ const Homepage = () => {
             {announcementsLoading ? (
               <Loader color="green" type="bars" size={"xl"} />
             ) : (
-              <AnnouncementHomeCarousel announcements={recentAnnouncements} />
+              // <AnnouncementHomeCarousel announcements={recentAnnouncements} />
+              <div className="flex flex-col md:flex-row gap-10">
+                {recentAnnouncements.map((announcement, index) => (
+                  <div key={index}>
+                    <AnnouncementHomeCard announcement={announcement} />
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

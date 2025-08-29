@@ -1,6 +1,6 @@
 import { IAnnouncement } from "@/types/announcement.types";
 import { Carousel } from "@mantine/carousel";
-import '@mantine/carousel/styles.css';
+import "@mantine/carousel/styles.css";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ const Card = (announcement: IAnnouncement) => {
   return (
     <Link
       href={`cso-announcements/${announcement._id}`}
-      className="w-full flex "
+      className="w-full h-full flex bg-green-200"
     >
       <div className="w-full h-full flex gap-6">
         <div className="w-full h-full">
@@ -22,14 +22,11 @@ const Card = (announcement: IAnnouncement) => {
         </div>
         <div className="w-full p-4 inner-box-shadow bg-white rounded-lg flex flex-col gap-2">
           <p className="uppercase text-xs text-black/40 font-semibold">
-            {new Date(announcement.updatedAt).toLocaleDateString(
-              "en-US",
-              {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              },
-            )}
+            {new Date(announcement.updatedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
           </p>
           <div className="flex flex-col gap-4">
             <div
@@ -44,8 +41,8 @@ const Card = (announcement: IAnnouncement) => {
         </div>
       </div>
     </Link>
-  )
-}
+  );
+};
 
 const AnnouncementHomeCarousel = ({
   announcements,
@@ -56,7 +53,7 @@ const AnnouncementHomeCarousel = ({
     <Carousel.Slide key={index}>
       <Card {...announcement} />
     </Carousel.Slide>
-  ))
+  ));
   return (
     <Carousel
       slideSize="100%"
@@ -65,12 +62,10 @@ const AnnouncementHomeCarousel = ({
         loop: true,
         dragFree: false,
         align: "center",
-        slidesToScroll: 1
+        slidesToScroll: 1,
       }}
     >
-      {
-        slides
-      }
+      {slides}
     </Carousel>
   );
 };

@@ -8,13 +8,9 @@ export default function AnnouncementHomeCard({
   announcement: IAnnouncement;
 }) {
   return (
-    <Link
-      href={`cso-announcements/${announcement._id}`}
-      className="w-full flex "
-    >
-      
-      <div className="w-full h-full flex gap-6">
-        <div className="w-full h-full">
+    <Link href={`cso-announcements/${announcement._id}`} className="">
+      <div className="w-[300px] h-[350px] flex flex-col justify-between gap-6">
+        <div className="w-full h-1/2">
           <Image
             src={announcement.image}
             height={300}
