@@ -3,7 +3,6 @@ import Image from "next/image";
 import "./homepage-styles.css";
 import useFetchData from "@/hooks/useFetchData";
 import { Loader } from "@mantine/core";
-import AnnouncementHomeCarousel from "@/components/AnnouncementHomeCarousel";
 import { useEffect, useState } from "react";
 import { IAnnouncement } from "@/types/announcement.types";
 import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";

@@ -58,12 +58,10 @@ const AnnouncementHomeCarousel = ({
     <Carousel
       slideSize="100%"
       height={200}
-      emblaOptions={{
-        loop: true,
-        dragFree: false,
-        align: "center",
-        slidesToScroll: 1,
-      }}
+      loop={true}
+      dragFree={false}
+      align="center"
+      slidesToScroll={1}
     >
       {slides}
     </Carousel>
