@@ -6,6 +6,7 @@ import { Loader } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { IAnnouncement } from "@/types/announcement.types";
 import AnnouncementHomeCard from "@/components/AnnouncementHomeCard";
+import AnnouncementHomeCarousel from "@/components/AnnouncementHomeCarousel";
 
 const Homepage = () => {
   // data fetching
@@ -83,14 +84,14 @@ const Homepage = () => {
             {announcementsLoading ? (
               <Loader color="green" type="bars" size={"xl"} />
             ) : (
-              // <AnnouncementHomeCarousel announcements={recentAnnouncements} />
-              <div className="flex flex-col md:flex-row gap-10">
-                {recentAnnouncements.map((announcement, index) => (
-                  <div key={index}>
-                    <AnnouncementHomeCard announcement={announcement} />
-                  </div>
-                ))}
-              </div>
+              <AnnouncementHomeCarousel announcements={recentAnnouncements} />
+              // <div className="flex flex-col md:flex-row gap-10">
+              //   {recentAnnouncements.map((announcement, index) => (
+              //     <div key={index}>
+              //       <AnnouncementHomeCard announcement={announcement} />
+              //     </div>
+              //   ))}
+              // </div>
             )}
           </div>
         </div>
